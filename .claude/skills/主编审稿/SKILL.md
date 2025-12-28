@@ -1,6 +1,6 @@
 ---
 name: editor-review
-description: 对文章进行主编级审稿。重点诊断篇幅冗余、节奏单一、表达重复及“教科书味”等问题，并输出带有优先级的可执行修改清单。适用于各类初稿的深度优化。
+description: [Workflow Sub-task] 这是一个子任务 Skill，通常由 workflow-producer 调度调用。仅当 workflow-producer 处于【Step 7: 审稿】阶段或协作流程结束时使用。不要直接用于响应用户的通用"写作"请求。
 ---
 
 # 主编审稿 (Editor-in-Chief Review)
