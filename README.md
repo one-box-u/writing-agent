@@ -1,20 +1,23 @@
-# 写稿Agent v0.1.0
+# 写稿Agent v0.2.0
 
 > 一个基于 Claude Code Skills 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/dongbeixiaohuo/写稿Agent/releases)
+[![Version](https://img.shields.io/badge/version-v0.2.0-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
 [![Claude Code](https://img.shields.io/badge/Claude-Code%20Skills-blue)](https://code.claude.com)
 [![DeepSeek](https://img.shields.io/badge/DeepSeek-Compatible-green)](https://platform.deepseek.com)
 
 ## 🎯 项目简介
 
-写稿Agent 是一个工作流驱动的写作系统，通过强制性的需求澄清、风格建模、素材调研和主编审稿，帮助你写出**不像AI生成**的高质量文章。
+写稿Agent 是一个**协作式写作工作流系统**，通过强制性的模式选择、需求澄清、风格建模、素材调研和主编审稿，帮助你写出**不像AI生成**的高质量文章。
 
 ### 核心特点
 
+- ✅ **协作工作流**：8阶段深度创作模式，包含调研、大纲、共情设计、标题设计、多版审稿
 - ✅ **反AI味道**：自动去除小标题病、排比上瘾、格式洁癖等AI典型特征
-- ✅ **风格建模**：12维度深度解构，提取任何文章的写作风格并复用
+- ✅ **风格建模 v3.0**：15维度深度解构，提取任何文章的写作风格并复用
+- ✅ **强制模式选择**：轻量模式（快速产出）vs 协作模式（深度创作）
+- ✅ **标题设计师**：独立 Skill，设计3种候选标题（吸引型/信息型/情绪型）
 - ✅ **素材调研**：自动搜集真实数据、案例和观点，让文章有据可依
 - ✅ **字数精准控制**：通过外部工具统计，误差控制在±20%以内
 - ✅ **版本管理**：自动保存初稿、修订稿、最终稿，可追溯每次修改
@@ -38,14 +41,14 @@
 
 1. **克隆项目**
    ```bash
-   git clone https://github.com/dongbeixiaohuo/写稿Agent.git
-   cd 写稿Agent
+   git clone https://github.com/dongbeixiaohuo/writing-agent.git
+   cd writing-agent
    ```
 
 2. **在 Claude Code 中打开**
    - 打开 Claude Code
    - File → Open Folder
-   - 选择 `写稿Agent` 目录
+   - 选择 `writing-agent` 目录
 
 3. **（可选）配置 DeepSeek API**
    
@@ -64,20 +67,48 @@
 
 ## 🚀 使用示例
 
-### 基础写作流程
+### 协作写作流程（8阶段）
 
 ```
-你："帮我写一篇关于35岁程序员危机的文章"
+你："我想写一篇关于35岁程序员危机的深度分析文章，3000字"
     ↓
 Claude 会引导你：
-1. 选择切入方向（A/B/C）
-2. 确认受众、风格、字数
-3. 询问是否需要调研素材
-4. 设计3个候选标题让你选择
-5. 分步写作（开头→主体→结尾）
-6. 主编审稿（重点检查AI味道）
+
+🎬 请选择工作流模式：
+【A. 轻量模式】快速产出
+【B. 协作模式】深度创作 ⭐ 推荐
+
+你选择 B（协作模式）后：
+
+📋 8阶段完整工作流：
+□ Stage 1: 主题与读者校准
+   - 选择切入方向（A/B/C）
+   - 确认受众、风格、字数
+   
+□ Stage 2: 案例与证据池
+   - 搜集真实数据、案例
+   
+□ Stage 3: 逻辑骨架搭建
+   - 设计文章结构
+   - 标注每段功能
+   
+□ Stage 4: 共情点设计
+   - 预测读者心理路径
+   
+□ Stage 5: 具象化翻译（按需）
+   - 将抽象概念转化为具体表达
+   
+□ Stage 5.5: 标题设计 ⭐ 必须
+   - 设计3个候选标题让你选择
+   
+□ Stage 6: 正式创作
+   - 分步写作（开头→主体→结尾）
+   
+□ Stage 7: 主编审稿与改稿
+   - 重点检查AI味道
+   - 输出修订稿
     ↓
-最终输出：articles/你的标题_最终稿.md
+最终输出：articles/[项目名]/draft_最终稿.md
 ```
 
 ### 风格建模详细教程
@@ -106,22 +137,25 @@ Claude 会引导你：
 提取共性，保存为'XXX风格'"
 ```
 
-**风格建模过程：**
+**风格建模过程（v3.0 - 15维度）：**
 ```
 提供样本文章
     ↓
 Claude 会：
-1. 深度解构12个维度：
-   - 核心人格与立场
-   - 思维模式与论证逻辑
+1. 深度解构15个维度：
+   - 作者画像与核心人格 ✨ 新增
+   - 思维内核与论证逻辑 ✨ 升级
+   - 创作路径还原 ✨ 新增
+   - 互动设计 ✨ 新增
    - 开头/过渡/结尾模式
    - 句式与节奏
-   - 词汇指纹
+   - 词汇指纹（5类细分）✨ 升级
    - 修辞手法
    - 格式与排版
-   - 独特习惯与招牌动作（重点！）
+   - 独特习惯与招牌动作（5类细分）✨ 升级
    - 反AI特征
    - 典型段落模板
+   - 禁忌清单
 2. 提取"招牌动作"（最具辨识度的写作习惯）
 3. 保存风格文件到 .claude/styles/XXX风格.md
     ↓
@@ -137,25 +171,39 @@ Claude 会：
 
 | Skill | 功能 | 调用时机 |
 |-------|------|---------|
-| `writing-clarifier` | 澄清写作需求 | 用户发起写作请求时 |
-| `research-expert` | 调研素材 | 需要真实数据支撑时 |
+| `workflow-producer` | 工作流导演 | 所有写作请求的唯一入口 ⭐ |
+| `writing-clarifier` | 澄清写作需求 | Stage 1: 主题与读者校准 |
+| `research-expert` | 调研素材 | Stage 2: 案例与证据池 |
+| `outline-architect` | 大纲架构师 | Stage 3: 逻辑骨架搭建 |
+| `empathy-designer` | 共情点设计师 | Stage 4: 共情点设计 |
+| `concretizer` | 具象化专家 | Stage 5: 具象化翻译（按需）|
+| `title-designer` | 标题设计师 | Stage 5.5: 标题设计 ✨ 新增 |
+| `writing-executor` | 写作执行 | Stage 6: 正式创作 |
+| `editor-review` | 主编审稿 | Stage 7: 主编审稿与改稿 |
 | `style-modeler` | 风格建模 | 需要提取/创建风格时 |
-| `writing-executor` | 写作执行 | 实际写作阶段 |
-| `editor-review` | 主编审稿 | 草稿完成后 |
 
 ## 🎨 风格库示例
 
-项目自带一个"墨水怪风"风格示例（`.claude/styles/墨水怪风.md`），特点：
-- 愤世嫉俗但真诚的语气
-- 口语化长句 + 情绪短句
-- 大量使用反问和自问自答
-- 完全不用小标题和加粗
+项目自带两个风格示例：
+
+### 1. 墨水怪风（`.claude/styles/墨水怪风.md`）
+- **核心人格**：愤世嫉俗但真诚的毒舌老哥
+- **招牌动作**：悖论翻转、质疑打断、真诚骂人
+- **特色词汇**：兽性、进化心理学、巴甫洛夫
+- **适用场景**：观点文、批判性分析
+
+### 2. 九边风（`.claude/styles/jiubian.md`）✨ 新增
+- **核心人格**：职场老炮式人生导师
+- **招牌动作**："那问题来了"、案例故事化、承认局限
+- **分析模式**：现象→机制→人性→出路
+- **适用场景**：职场分析、深度解读
 
 你可以基于任何文章创建自己的风格库。
 
 ## 📖 详细文档
 
-- [完整工作流说明](CLAUDE.MD)
+- [协作写作工作流快速参考](docs/WORKFLOW_QUICK_REFERENCE.md) ⭐ 新增
+- [Skills 更新总结](docs/SKILLS_UPDATE_SUMMARY.md) ⭐ 新增
 - [DeepSeek API 配置指南](docs/DEEPSEEK_SETUP.md) ⭐ 推荐
 - [Skills 开发指南](.claude/skills/)
 - [风格建模教程](.claude/skills/风格建模/SKILL.md)
@@ -172,6 +220,10 @@ Claude 会：
 
 编辑 `.claude/skills/写作执行/SKILL.md` 中的"字数控制"部分，修改允许范围（默认±20%）。
 
+### 自定义工作流阶段
+
+编辑 `.claude/skills/工作流导演/SKILL.md`，可以调整协作模式的阶段顺序或跳过某些阶段。
+
 ## 🤝 贡献指南
 
 欢迎提交 Issue 和 Pull Request！
@@ -186,6 +238,14 @@ Claude 会：
 
 查看 [CHANGELOG.md](CHANGELOG.md) 了解版本历史。
 
+**最新版本 v0.2.0 (2025-12-29)**
+- ✨ 风格建模升级至 v3.0（15维度）
+- ✨ 新增协作写作工作流（8阶段）
+- ✨ 新增标题设计师 Skill
+- ✨ 新增九边风、墨水怪风两套风格配方
+- 🔧 强制模式选择机制
+- 🔧 子 Skill 权限调整
+
 ## 📄 许可证
 
 本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
@@ -197,8 +257,8 @@ Claude 会：
 
 ## 📮 联系方式
 
-- 提交 Issue: [GitHub Issues](https://github.com/dongbeixiaohuo/写稿Agent/issues)
-- 讨论区: [GitHub Discussions](https://github.com/dongbeixiaohuo/写稿Agent/discussions)
+- 提交 Issue: [GitHub Issues](https://github.com/dongbeixiaohuo/writing-agent/issues)
+- 讨论区: [GitHub Discussions](https://github.com/dongbeixiaohuo/writing-agent/discussions)
 
 ---
 
