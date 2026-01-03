@@ -1,9 +1,9 @@
-# 写稿Agent v0.2.0
+# 写稿Agent v0.3.0
 
 > 一个基于 Claude Code Skills 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-v0.2.0-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
+[![Version](https://img.shields.io/badge/version-v0.3.0-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
 [![Claude Code](https://img.shields.io/badge/Claude-Code%20Skills-blue)](https://code.claude.com)
 [![DeepSeek](https://img.shields.io/badge/DeepSeek-Compatible-green)](https://platform.deepseek.com)
 
@@ -13,13 +13,15 @@
 
 ### 核心特点
 
-- ✅ **协作工作流**：8阶段深度创作模式，包含调研、大纲、共情设计、标题设计、多版审稿
+- ✅ **协作工作流**：8+2阶段深度创作模式，新增选题调研与发布评审
+- ✅ **爆款能力增强**：内置5种爆款标题公式、4种开头钩子、前50字生死线检查 ✨ New
 - ✅ **反AI味道**：自动去除小标题病、排比上瘾、格式洁癖等AI典型特征
-- ✅ **风格建模 v3.0**：15维度深度解构，提取任何文章的写作风格并复用
+- ✅ **风格建模 v3.0**：15维度深度解构，新增"目标读者画像"维度
 - ✅ **强制模式选择**：轻量模式（快速产出）vs 协作模式（深度创作）
-- ✅ **标题设计师**：独立 Skill，设计3种候选标题（吸引型/信息型/情绪型）
-- ✅ **素材调研**：自动搜集真实数据、案例和观点，让文章有据可依
+- ✅ **标题设计师**：独立 Skill，设计3种候选标题 + 爆款公式加持
+- ✅ **素材调研**：自动搜集真实数据，新增爆款拆解与痛点验证
 - ✅ **字数精准控制**：通过外部工具统计，误差控制在±20%以内
+- ✅ **发布前评审**：独创"发布前5问"机制，不达标不发布 ✨ New
 - ✅ **版本管理**：自动保存初稿、修订稿、最终稿，可追溯每次修改
 
 ## 📦 快速开始
@@ -80,7 +82,10 @@ Claude 会引导你：
 
 你选择 B（协作模式）后：
 
-📋 8阶段完整工作流：
+📋 完整工作流：
+□ Stage 0: 选题调研（选题前置验证）✨ New
+   - 热点扫描/爆款拆解/痛点验证
+   
 □ Stage 1: 主题与读者校准
    - 选择切入方向（A/B/C）
    - 确认受众、风格、字数
@@ -94,19 +99,25 @@ Claude 会引导你：
    
 □ Stage 4: 共情点设计
    - 预测读者心理路径
+   - ⚡ 强化开头钩子设计
    
 □ Stage 5: 具象化翻译（按需）
    - 将抽象概念转化为具体表达
    
 □ Stage 5.5: 标题设计 ⭐ 必须
    - 设计3个候选标题让你选择
+   - ⚡ 植入爆款标题公式
    
 □ Stage 6: 正式创作
    - 分步写作（开头→主体→结尾）
+   - ⚡ 强制执行前50字生死线
    
 □ Stage 7: 主编审稿与改稿
    - 重点检查AI味道
    - 输出修订稿
+
+□ Stage 8: 发布前把关 ✨ New
+   - 发布前5问评审（标题/开头/认同/出路/分享）
     ↓
 最终输出：articles/[项目名]/draft_最终稿.md
 ```
@@ -172,14 +183,16 @@ Claude 会：
 | Skill | 功能 | 调用时机 |
 |-------|------|---------|
 | `workflow-producer` | 工作流导演 | 所有写作请求的唯一入口 ⭐ |
+| `topic-research` | 选题调研 | Stage 0: 动笔前的热点与痛点验证 ✨ New |
 | `writing-clarifier` | 澄清写作需求 | Stage 1: 主题与读者校准 |
 | `research-expert` | 调研素材 | Stage 2: 案例与证据池 |
 | `outline-architect` | 大纲架构师 | Stage 3: 逻辑骨架搭建 |
 | `empathy-designer` | 共情点设计师 | Stage 4: 共情点设计 |
 | `concretizer` | 具象化专家 | Stage 5: 具象化翻译（按需）|
-| `title-designer` | 标题设计师 | Stage 5.5: 标题设计 ✨ 新增 |
-| `writing-executor` | 写作执行 | Stage 6: 正式创作 |
+| `title-designer` | 标题设计师 | Stage 5.5: 标题设计（含爆款公式）✨ Upgrade |
+| `writing-executor` | 写作执行 | Stage 6: 正式创作（含开头钩子）✨ Upgrade |
 | `editor-review` | 主编审稿 | Stage 7: 主编审稿与改稿 |
+| `pre-publish-review` | 发布前评审 | Stage 8: 发布前5问把关 ✨ New |
 | `style-modeler` | 风格建模 | 需要提取/创建风格时 |
 
 ## 🎨 风格库示例
