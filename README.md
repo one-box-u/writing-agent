@@ -3,7 +3,7 @@
 > 一个基于 Claude Code Skills 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-v0.3.0-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
+[![Version](https://img.shields.io/badge/version-v0.3.1-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
 [![Claude Code](https://img.shields.io/badge/Claude-Code%20Skills-blue)](https://code.claude.com)
 [![DeepSeek](https://img.shields.io/badge/DeepSeek-Compatible-green)](https://platform.deepseek.com)
 
@@ -16,7 +16,8 @@
 - ✅ **协作工作流**：8+2阶段深度创作模式，新增选题调研与发布评审
 - ✅ **爆款能力增强**：内置5种爆款标题公式、4种开头钩子、前50字生死线检查 ✨ New
 - ✅ **反AI味道**：自动去除小标题病、排比上瘾、格式洁癖等AI典型特征
-- ✅ **风格建模 v3.0**：15维度深度解构，新增"目标读者画像"维度
+- ✅ **风格建模 v3.1**：支持公众号链接一键提取、多篇批量建模、增量更新风格库
+- ✅ **自动素材归档**：提取的文章自动保存为本地 Markdown，构建个人知识库 ✨ New
 - ✅ **强制模式选择**：轻量模式（快速产出）vs 协作模式（深度创作）
 - ✅ **标题设计师**：独立 Skill，设计3种候选标题 + 爆款公式加持
 - ✅ **素材调研**：自动搜集真实数据，新增爆款拆解与痛点验证
@@ -148,6 +149,21 @@ Claude 会引导你：
 提取共性，保存为'XXX风格'"
 ```
 
+**方式四：URL 一键学习（🔥 强力推荐）**
+```
+你："学一下这几篇公众号文章的风格：
+https://mp.weixin.qq.com/s/xxxx
+https://mp.weixin.qq.com/s/yyyy
+
+如果作者已经在风格库里，就更新它的风格文件。"
+
+👉 Claude 会自动：
+1. 打开浏览器抓取正文（自动绕过微信反爬）
+2. 将文章保存到 docs/ 文件夹归档
+3. 如果是新作者 -> 建新档
+4. 如果是老作者 -> 融合新特征，更新旧档
+```
+
 **风格建模过程（v3.0 - 15维度）：**
 ```
 提供样本文章
@@ -193,7 +209,7 @@ Claude 会：
 | `writing-executor` | 写作执行 | Stage 6: 正式创作（含开头钩子）✨ Upgrade |
 | `editor-review` | 主编审稿 | Stage 7: 主编审稿与改稿 |
 | `pre-publish-review` | 发布前评审 | Stage 8: 发布前5问把关 ✨ New |
-| `style-modeler` | 风格建模 | 需要提取/创建风格时 |
+| `style-modeler` | 风格建模 | URL提取/批量建模/增量更新 ✨ Upgrade |
 
 ## 🎨 风格库示例
 

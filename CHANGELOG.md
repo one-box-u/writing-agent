@@ -4,6 +4,16 @@ All notable changes to 写稿Agent will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.3.1] - 2026-01-06
+
+### Added
+- 🚀 **风格建模闭环工作流**：
+  - **URL 一键提取**：`style-modeler` 现在直接支持 URL 输入，自动调用 `web-article-extractor` 抓取正文。
+  - **公众号自动处理**：针对微信公众号链接，自动应用绕过安全限制的配置。
+  - **批量串行提取**：支持一次性投喂多篇 URL，自动构建“超级样本”进行整体分析。
+  - **增量更新机制**：自动识别同作者，支持将新文章融合到现有风格文件中，迭代进化。
+  - **自动归档**：提取的原始文章会自动保存为 Markdown 到 `docs/` 目录，建立本地素材库。
 ## [0.3.0] - 2026-01-04
 
 ### Added
