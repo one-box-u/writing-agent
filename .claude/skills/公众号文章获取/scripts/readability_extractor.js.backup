@@ -1,0 +1,227 @@
+/**
+ * Readability.js Integration for Web Article Extraction
+ *
+ * Uses Mozilla's Readability algorithm for superior article content extraction.
+ * This provides better handling of complex layouts, ads, and navigation elements.
+ *
+ * Version: 2.0.0 (Updated with isProbablyReaderable and enhanced options)
+ * Readability.js Version: 0.6.0
+ *
+ * @see https://github.com/mozilla/readability
+ */
+
+(async function() {
+  // Helper: Load Readability.js and Readability-readerable.js from CDN
+  async function loadReadability() {
+    // Check if already loaded
+    if (window.Readability && window.isProbablyReaderable) {
+      return true;
+    }
+
+    // Load both main library and readerable checker
+    const loadScript = (src) => {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = () => resolve(true);
+        script.onerror = () => reject(new Error(`Failed to load ${src}`));
+        document.head.appendChild(script);
+      });
+    };
+
+    try {
+      // Load Readability-readerable.js first (for isProbablyReaderable)
+      await loadScript('https://cdn.jsdelivr.net/npm/@mozilla/readability@0.6.0/Readability-readerable.min.js');
+      // Then load main Readability.js
+      await loadScript('https://cdn.jsdelivr.net/npm/@mozilla/readability@0.6.0/Readability.min.js');
+      return true;
+    } catch (error) {
+      throw new Error('Failed to load Readability libraries: ' + error.message);
+    }
+  }
+
+  try {
+    // Load Readability library
+    await loadReadability();
+
+    // Step 1: Quick pre-check using isProbablyReaderable
+    const isReaderable = isProbablyReaderable(document, {
+      minContentLength: 140,
+      minScore: 20,
+      visibilityChecker: (node) => {
+        // Check if node is visible
+        if (!node || node.nodeType !== 1) return false;
+        const style = window.getComputedStyle(node);
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          style.opacity !== '0'
+        );
+      }
+    });
+
+    // Store readability check result
+    const readerabilityScore = {
+      isReaderable: isReaderable,
+      checkedAt: new Date().toISOString()
+    };
+
+    // If not readerable, still try but with adjusted expectations
+    if (!isReaderable) {
+      console.warn('Page may not be suitable for Readability extraction (score too low)');
+    }
+
+    // Step 2: Clone the document for parsing (required by Readability)
+    const documentClone = document.cloneNode(true);
+
+    // Step 3: Create Readability instance with enhanced options
+    const reader = new Readability(documentClone, {
+      debug: false,
+      maxElemsToParse: 0, // No limit (0 = unlimited)
+      nbTopCandidates: 5, // Number of top candidates to consider
+      charThreshold: 500, // Minimum characters for a valid article
+      classesToPreserve: ['caption', 'credit', 'figure', 'highlight', 'pullquote'],
+      keepClasses: false, // Remove classes except those in classesToPreserve
+      disableJSONLD: false, // Enable JSON-LD metadata extraction
+      serializer: (el) => el.innerHTML, // Keep HTML serialization
+      linkDensityModifier: 0 // No modification to link density threshold (can be adjusted)
+    });
+
+    // Step 4: Parse the article
+    const article = reader.parse();
+
+    if (!article) {
+      throw new Error('Readability failed to extract article content - article is null');
+    }
+
+    // Extract additional metadata not provided by Readability
+    const metadata = {};
+
+    // Author
+    metadata.author =
+      article.byline ||
+      document.querySelector('meta[name="author"]')?.content ||
+      document.querySelector('[rel="author"]')?.innerText ||
+      document.querySelector('.author-name, .byline, .post-author')?.innerText ||
+      null;
+
+    // Publish date
+    metadata.publishDate =
+      document.querySelector('time')?.getAttribute('datetime') ||
+      document.querySelector('meta[property="article:published_time"]')?.content ||
+      document.querySelector('.publish-date, .post-date, .entry-date')?.innerText ||
+      null;
+
+    // Tags/Keywords
+    const keywords = document.querySelector('meta[name="keywords"]')?.content;
+    metadata.tags = keywords ? keywords.split(',').map(t => t.trim()) : [];
+
+    // Categories
+    const categories = Array.from(document.querySelectorAll('.category, .tag, [rel="category tag"]'))
+      .map(el => el.innerText.trim())
+      .filter(Boolean);
+
+    // Images from the parsed content
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = article.content;
+    const images = Array.from(tempDiv.querySelectorAll('img'))
+      .map(img => ({
+        src: img.src,
+        alt: img.alt || null,
+        width: img.width || null,
+        height: img.height || null
+      }))
+      .filter(img => img.src && !img.src.includes('data:image'));
+
+    // Extract headings structure from parsed content
+    const headings = Array.from(tempDiv.querySelectorAll('h1, h2, h3, h4, h5, h6'))
+      .map(h => ({
+        level: parseInt(h.tagName.substring(1)),
+        text: h.innerText.trim()
+      }));
+
+    // Calculate reading time (average 200 words per minute)
+    const wordCount = article.textContent.split(/\s+/).length;
+    const readingTimeMinutes = Math.ceil(wordCount / 200);
+
+    // Get language
+    const language =
+      document.documentElement.lang ||
+      document.querySelector('meta[http-equiv="content-language"]')?.content ||
+      document.querySelector('meta[property="og:locale"]')?.content ||
+      null;
+
+    // Return comprehensive article data
+    return {
+      success: true,
+      extractionMethod: 'readability',
+      extractedAt: new Date().toISOString(),
+
+      // Readability pre-check results
+      readerability: readerabilityScore,
+
+      // Core content (from Readability native fields)
+      title: article.title,
+      content: article.textContent, // Plain text
+      contentHtml: article.content, // HTML with formatting
+      excerpt: article.excerpt || article.textContent.substring(0, 300) + '...',
+
+      // Metadata (Readability native + enhanced)
+      author: metadata.author,
+      byline: article.byline, // Readability native byline
+      publishDate: metadata.publishDate,
+      publishedTime: article.publishedTime, // Readability native field (new in v0.6.0)
+      siteName: article.siteName || document.querySelector('meta[property="og:site_name"]')?.content,
+      language: article.lang || language, // Readability native lang field
+      dir: article.dir, // Content direction (ltr/rtl) - Readability native
+
+      // Content analysis
+      wordCount: wordCount,
+      contentLength: article.length, // Readability native length field
+      readingTime: readingTimeMinutes,
+
+      // Structure
+      headings: headings,
+      images: images,
+      tags: metadata.tags,
+      categories: categories,
+
+      // URL and extraction info
+      url: window.location.href,
+      canonicalUrl: document.querySelector('link[rel="canonical"]')?.href || window.location.href,
+
+      // SEO metadata
+      metaDescription: document.querySelector('meta[name="description"]')?.content || null,
+      ogTitle: document.querySelector('meta[property="og:title"]')?.content || null,
+      ogDescription: document.querySelector('meta[property="og:description"]')?.content || null,
+      ogImage: document.querySelector('meta[property="og:image"]')?.content || null,
+      twitterCard: document.querySelector('meta[name="twitter:card"]')?.content || null,
+      twitterTitle: document.querySelector('meta[name="twitter:title"]')?.content || null,
+      twitterDescription: document.querySelector('meta[name="twitter:description"]')?.content || null,
+      twitterImage: document.querySelector('meta[name="twitter:image"]')?.content || null,
+
+      // Additional info
+      favicon: document.querySelector('link[rel="icon"], link[rel="shortcut icon"]')?.href || null,
+      theme: document.querySelector('meta[name="theme-color"]')?.content || null,
+
+      // Debug info
+      readabilityVersion: '0.6.0'
+    };
+
+  } catch (error) {
+    // Fallback to basic extraction if Readability fails
+    console.error('Readability extraction failed:', error);
+
+    return {
+      success: false,
+      error: error.message,
+      extractionMethod: 'fallback',
+
+      // Basic fallback data
+      title: document.querySelector('h1')?.innerText || document.title,
+      content: document.body.innerText.substring(0, 10000),
+      url: window.location.href,
+      extractedAt: new Date().toISOString()
+    };
+  }
+})();
