@@ -5,6 +5,16 @@ All notable changes to 写稿Agent will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.3] - 2026-01-16
+
+### Changed
+- 🔧 **发布前评审升级 v2.0**：
+  - **红队评审机制**：新增强制挑刺环节，即使文章很好也必须找出5个潜在问题（标题致命伤/开头劝退点/AI味道/逻辑漏洞/情绪过载）。
+  - **硬性指标检查**：标题问增加4项可验证指标，不符合2项以上自动扣1星。
+  - **红队扣分机制**：AI套路结尾(-2分)、缺少出路(-2分)、粗俗表达(-1分)、逻辑严重漏洞(-2分)。
+  - **最终评分优化**：常规评分 + 红队扣分 = 最终得分，防止虚高评分。
+  - **效果**：解决了原评审机制容易给满分的问题，评分更客观真实。
+
 ## [0.3.2] - 2026-01-16
 
 ### Added
