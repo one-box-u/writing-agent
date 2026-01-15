@@ -1,9 +1,9 @@
-# 写稿Agent v0.3.0
+# 写稿Agent v0.3.2
 
 > 一个基于 Claude Code Skills 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-v0.3.1-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
+[![Version](https://img.shields.io/badge/version-v0.3.2-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
 [![Claude Code](https://img.shields.io/badge/Claude-Code%20Skills-blue)](https://code.claude.com)
 [![DeepSeek](https://img.shields.io/badge/DeepSeek-Compatible-green)](https://platform.deepseek.com)
 
@@ -17,6 +17,7 @@
 - ✅ **爆款能力增强**：内置5种爆款标题公式、4种开头钩子、前50字生死线检查 ✨ New
 - ✅ **反AI味道**：自动去除小标题病、排比上瘾、格式洁癖等AI典型特征
 - ✅ **风格建模 v3.1**：支持公众号链接一键提取、多篇批量建模、增量更新风格库
+- ✅ **选题生成器**：不知道写什么？AI 基于热点、个人优势和竞品分析智能推荐选题 ✨ New
 - ✅ **自动素材归档**：提取的文章自动保存为本地 Markdown，构建个人知识库 ✨ New
 - ✅ **强制模式选择**：轻量模式（快速产出）vs 协作模式（深度创作）
 - ✅ **标题设计师**：独立 Skill，设计3种候选标题 + 爆款公式加持
@@ -199,6 +200,7 @@ Claude 会：
 | Skill | 功能 | 调用时机 |
 |-------|------|---------|
 | `workflow-producer` | 工作流导演 | 所有写作请求的唯一入口 ⭐ |
+| `topic-generator` | 选题生成器 | 不知道写什么时，从0生成候选选题 ✨ New |
 | `topic-research` | 选题调研 | Stage 0: 动笔前的热点与痛点验证 ✨ New |
 | `writing-clarifier` | 澄清写作需求 | Stage 1: 主题与读者校准 |
 | `research-expert` | 调研素材 | Stage 2: 案例与证据池 |

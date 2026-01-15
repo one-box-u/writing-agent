@@ -5,6 +5,18 @@ All notable changes to 写稿Agent will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.2] - 2026-01-16
+
+### Added
+- 🚀 **选题生成器 (topic-generator)**：
+  - **从0到1生成选题**：当用户不知道写什么时，AI 智能推荐候选选题。
+  - **三层架构**：
+    - 灵感触发：热点扫描、个人资产盘点、竞品分析三维度生成 8-10 个候选。
+    - 选题验证：五问评分机制（痛点真实性/竞争度/个人优势/传播潜力/可持续性）。
+    - 选题具象化：拆解子话题、设计开头钩子、生成素材清单。
+  - **选题库管理**：新增 `articles/_topic_pool/` 目录，支持保存、回顾、重新验证选题。
+  - **数据驱动**：所有推荐基于真实搜索数据，避免"自嗨式选题"。
+
 ## [0.3.1] - 2026-01-06
 
 ### Added

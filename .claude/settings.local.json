@@ -3,7 +3,20 @@
     "allow": [
       "Skill(公众号文章获取)",
       "Skill(公众号文章获取:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Skill(选题生成器)",
+      "Skill(选题生成器:*)",
+      "mcp__web-search-prime__webSearchPrime",
+      "Skill(澄清写作需求)",
+      "Skill(澄清写作需求:*)",
+      "Skill(调研资料)",
+      "Skill(调研资料:*)",
+      "Skill(标题设计师)",
+      "Skill(标题设计师:*)",
+      "Skill(写作执行)",
+      "Skill(写作执行:*)",
+      "Skill(发布前评审)",
+      "Skill(发布前评审:*)"
     ]
   }
 }
