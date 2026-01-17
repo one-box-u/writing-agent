@@ -1,6 +1,10 @@
 # 写稿Agent v0.3.3
 
-> 一个基于 Claude Code Skills 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
+> 🚀 一个基于 Claude Code Skills 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
+> 
+> 支持 **DeepSeek / 智谱GLM / MiniMax** 等多种国产大模型，成本极低（2000字文章约¥0.03）。
+> 
+> 从选题生成、风格建模到发布评审，提供完整的 AI 写作工作流。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/version-v0.3.3-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
@@ -405,6 +409,47 @@ claude
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
+
+</details>
+
+<details>
+<summary><b>💡 推荐工具：Windows 用户的多 API 环境管理神器</b></summary>
+
+如果你觉得手动管理环境变量比较麻烦，特别是需要在多个 API 提供商之间切换时，强烈推荐使用 **CC-Switch** 工具。
+
+**CC-Switch 是什么？**
+
+CC-Switch 是一个跨平台的桌面应用，专为 Claude Code、Codex 和 Gemini CLI 设计的一体化助手工具。
+
+**核心功能：**
+- 🔄 **一键切换 API 配置**：支持多个 API 提供商配置，无需手动修改环境变量
+- 📦 **MCP 服务器管理**：可视化管理 MCP 服务器
+- 🎯 **Skills 管理**：自动扫描和安装 Claude Skills
+- 💬 **Prompts 管理**：多预设系统提示词管理
+- 🌐 **多语言支持**：中文/英文/日文界面
+- 💾 **配置同步**：支持配置云同步（未来功能）
+
+**下载安装：**
+
+访问 [CC-Switch GitHub Releases](https://github.com/farion1231/cc-switch/releases) 下载最新版本：
+
+- **Windows**: 下载 `CC-Switch-v{version}-Windows.msi` 安装包
+- **macOS**: 通过 Homebrew 安装 `brew install --cask cc-switch`
+- **Linux**: 支持 `.deb`、`.rpm`、`.AppImage` 等多种格式
+
+**使用方法：**
+
+1. 安装并启动 CC-Switch
+2. 在界面中添加你的 API 配置（支持 DeepSeek、智谱、MiniMax 等）
+3. 一键切换不同的 API 环境
+4. 无需手动修改配置文件或环境变量
+
+**项目地址：** [https://github.com/farion1231/cc-switch](https://github.com/farion1231/cc-switch)
+
+**适合人群：**
+- ✅ 需要频繁切换多个 API 提供商的用户
+- ✅ 不熟悉命令行和环境变量配置的新手
+- ✅ 希望有可视化界面管理 Claude Code 配置的用户
 
 </details>
 
