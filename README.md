@@ -26,48 +26,387 @@
 - ✅ **发布前评审 v2.0**：独创"发布前5问+红队评审"机制，强制挑刺防止虚高评分 ✨ Upgrade
 - ✅ **版本管理**：自动保存初稿、修订稿、最终稿，可追溯每次修改
 
+
 ## 📦 快速开始
 
 ### 前置要求
 
-**方式一：使用 Claude Code（官方）**
+**方式一：使用 Claude 官方模型**
 - [Claude Code](https://code.claude.com) 账号
 - 基本的命令行操作能力
 
-**方式二：使用 DeepSeek API（推荐，更经济）**
-- Claude Code 桌面应用（无需 Claude 账号）
-- DeepSeek API Key（[获取地址](https://platform.deepseek.com)）
-- 配置方法：参考 [DeepSeek 官方文档](https://api-docs.deepseek.com/zh-cn/guides/anthropic_api)
+**方式二：使用国产大模型（推荐，更经济）**
 
-> **本项目所有测试均基于 DeepSeek-V3 模型通过 Anthropic API 适配完成。**
+本项目支持通过 Anthropic API 兼容接口接入多种国产大模型：
 
-### 安装步骤
+| 模型 | 推荐指数 | 成本 | 获取 API Key | 官方文档 |
+|------|---------|------|-------------|---------|
+| **DeepSeek-V3** | ⭐⭐⭐⭐⭐ | 极低 | [DeepSeek 平台](https://platform.deepseek.com) | [接入文档](https://api-docs.deepseek.com/zh-cn/guides/anthropic_api) |
+| **智谱 GLM** | ⭐⭐⭐⭐ | 中等 | [智谱开放平台](https://open.bigmodel.cn) | [接入文档](https://docs.bigmodel.cn/cn/coding-plan/tool/claude) |
+| **MiniMax** | ⭐⭐⭐⭐ | 中等 | [MiniMax 平台](https://platform.minimaxi.com) | [接入文档](https://platform.minimaxi.com/docs/api-reference/text-anthropic-api) |
 
-1. **克隆项目**
-   ```bash
+> **本项目所有测试均基于 DeepSeek-V3 模型完成。** 一篇 2000 字文章成本约 ¥0.03，性价比极高。
+
+### 安装步骤（新手友好版）
+
+本指南以 **Windows 系统**为主，同时提供 Linux/macOS 的对应说明。
+
+---
+
+#### 步骤 1：安装 Node.js 环境
+
+Claude Code 需要 Node.js 18 或更高版本才能运行。
+
+<details>
+<summary><b>Windows 安装 Node.js</b></summary>
+
+**方法一：官网下载（推荐）**
+
+1. 打开浏览器访问 [https://nodejs.org/](https://nodejs.org/)
+2. 点击 **"LTS"** 版本进行下载（长期支持版本，版本号需 ≥ 18）
+3. 下载完成后双击 `.msi` 文件
+4. 按照安装向导完成安装，**保持默认设置即可**
+5. 安装完成后，打开 **PowerShell**（推荐）或 CMD，输入以下命令验证：
+   ```powershell
+   node --version
+   npm --version
+   ```
+   如果显示版本号（如 `v20.x.x` 和 `10.x.x`），说明安装成功！
+
+**方法二：使用包管理器**
+
+如果你安装了 Chocolatey 或 Scoop，可以使用命令行安装：
+```powershell
+# 使用 Chocolatey
+choco install nodejs
+
+# 或使用 Scoop
+scoop install nodejs
+```
+
+**Windows 注意事项：**
+- ⚠️ 建议使用 **PowerShell** 而不是 CMD（功能更强大）
+- ⚠️ 如果遇到权限问题，尝试**以管理员身份运行** PowerShell
+- ⚠️ 某些杀毒软件可能会误报，需要添加白名单
+
+</details>
+
+<details>
+<summary><b>Linux/macOS 安装 Node.js</b></summary>
+
+**Ubuntu/Debian:**
+```bash
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+**macOS (使用 Homebrew):**
+```bash
+brew install node
+```
+
+**验证安装：**
+```bash
+node --version
+npm --version
+```
+
+</details>
+
+---
+
+#### 步骤 2：克隆项目到本地
+
+<details>
+<summary><b>Windows 操作</b></summary>
+
+1. 打开 **PowerShell**
+2. 进入你想存放项目的目录，例如：
+   ```powershell
+   cd D:\Projects
+   ```
+3. 克隆项目：
+   ```powershell
    git clone https://github.com/dongbeixiaohuo/writing-agent.git
    cd writing-agent
    ```
 
-2. **在 Claude Code 中打开**
-   - 打开 Claude Code
-   - File → Open Folder
-   - 选择 `writing-agent` 目录
+**如果没有安装 Git：**
+- 下载安装：[https://git-scm.com/download/win](https://git-scm.com/download/win)
+- 或者直接从 GitHub 下载 ZIP 文件并解压
 
-3. **（可选）配置 DeepSeek API**
+</details>
+
+<details>
+<summary><b>Linux/macOS 操作</b></summary>
+
+```bash
+cd ~/Projects  # 或你想存放的目录
+git clone https://github.com/dongbeixiaohuo/writing-agent.git
+cd writing-agent
+```
+
+</details>
+
+---
+
+#### 步骤 3：安装 Claude Code
+
+<details>
+<summary><b>Windows 安装</b></summary>
+
+1. 打开 **PowerShell**（建议以管理员身份运行）
+2. 运行以下命令全局安装 Claude Code：
+   ```powershell
+   npm install -g @anthropic-ai/claude-code
+   ```
    
-   如果使用 DeepSeek API，在 Claude Code 设置中：
-   ```
-   API Base URL: https://api.deepseek.com/v1
-   API Key: 你的 DeepSeek API Key
-   Model: deepseek-chat
+   **如果下载速度慢，可以使用国内镜像：**
+   ```powershell
+   npm install -g @anthropic-ai/claude-code --registry=https://registry.npmmirror.com
    ```
 
-4. **开始使用**
+3. 验证安装：
+   ```powershell
+   claude --version
    ```
-   直接对 Claude 说："帮我写一篇关于XXX的文章"
-   系统会自动引导你完成整个写作流程
+   如果显示版本号，说明安装成功！
+
+**更新 Claude Code：**
+```powershell
+claude update
+```
+
+</details>
+
+<details>
+<summary><b>Linux/macOS 安装</b></summary>
+
+```bash
+npm install -g @anthropic-ai/claude-code
+
+# 验证安装
+claude --version
+```
+
+</details>
+
+---
+
+#### 步骤 4：配置第三方 API（三种方法任选其一）
+
+本项目支持通过 Anthropic API 兼容接口接入多种第三方模型。以下以通用配置为例。
+
+**你需要准备的信息：**
+- `API_BASE_URL`：第三方 API 的基础地址（如 `https://api.example.com/v1`）
+- `API_KEY`：你的 API 密钥（从第三方平台获取）
+
+---
+
+<details>
+<summary><b>方法一：配置文件方式（强烈推荐✨）</b></summary>
+
+这是最稳定的配置方式，配置一次永久生效。
+
+**Windows 操作：**
+
+1. 打开文件资源管理器，在地址栏输入：
    ```
+   %USERPROFILE%\.claude
+   ```
+   如果文件夹不存在，手动创建它。
+
+2. 在该文件夹下创建文件 `settings.json`（如果已存在则直接编辑）
+
+3. 用记事本或 VS Code 打开 `settings.json`，填入以下内容：
+   ```json
+   {
+     "env": {
+       "ANTHROPIC_AUTH_TOKEN": "你的API密钥",
+       "ANTHROPIC_BASE_URL": "https://api.example.com/v1",
+       "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+     }
+   }
+   ```
+
+4. **替换示例值：**
+   - 将 `"你的API密钥"` 替换为你从第三方平台获取的实际 API Key
+   - 将 `"https://api.example.com/v1"` 替换为第三方 API 的实际地址
+
+5. 保存文件
+
+**Linux/macOS 操作：**
+
+```bash
+# 创建配置目录（如果不存在）
+mkdir -p ~/.claude
+
+# 编辑配置文件
+nano ~/.claude/settings.json
+```
+
+填入相同的 JSON 内容，保存后退出（Ctrl+X → Y → Enter）。
+
+**配置文件路径说明：**
+- Windows: `C:\Users\你的用户名\.claude\settings.json`
+- Linux/macOS: `~/.claude/settings.json`
+
+</details>
+
+---
+
+<details>
+<summary><b>方法二：PowerShell 永久环境变量（Windows）</b></summary>
+
+这种方法会将配置写入系统环境变量，重启后仍然有效。
+
+**在 PowerShell 中运行：**
+
+```powershell
+# 设置用户级环境变量（永久生效）
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC_BASE_URL", "https://api.example.com/v1", [System.EnvironmentVariableTarget]::User)
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", "你的API密钥", [System.EnvironmentVariableTarget]::User)
+```
+
+**验证设置：**
+```powershell
+# 查看环境变量
+[System.Environment]::GetEnvironmentVariable("ANTHROPIC_BASE_URL", [System.EnvironmentVariableTarget]::User)
+[System.Environment]::GetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", [System.EnvironmentVariableTarget]::User)
+```
+
+**⚠️ 注意：** 设置后需要**重新打开 PowerShell 窗口**才能生效。
+
+</details>
+
+---
+
+<details>
+<summary><b>方法三：临时环境变量（当前会话）</b></summary>
+
+这种方法只在当前 PowerShell/终端会话中有效，关闭窗口后失效。
+
+**Windows (PowerShell):**
+```powershell
+$env:ANTHROPIC_BASE_URL = "https://api.example.com/v1"
+$env:ANTHROPIC_AUTH_TOKEN = "你的API密钥"
+```
+
+**Linux/macOS (Bash/Zsh):**
+```bash
+export ANTHROPIC_BASE_URL="https://api.example.com/v1"
+export ANTHROPIC_AUTH_TOKEN="你的API密钥"
+```
+
+**验证设置：**
+```powershell
+# Windows PowerShell
+echo $env:ANTHROPIC_BASE_URL
+echo $env:ANTHROPIC_AUTH_TOKEN
+
+# Linux/macOS
+echo $ANTHROPIC_BASE_URL
+echo $ANTHROPIC_AUTH_TOKEN
+```
+
+</details>
+
+---
+
+**具体模型配置示例：**
+
+如果你使用的是本项目推荐的模型，可以参考以下配置：
+
+- **DeepSeek-V3**: 参考 [接入文档](https://api-docs.deepseek.com/zh-cn/guides/anthropic_api)
+- **智谱 GLM**: 参考 [接入文档](https://docs.bigmodel.cn/cn/coding-plan/tool/claude)
+- **MiniMax**: 参考 [接入文档](https://platform.minimaxi.com/docs/api-reference/text-anthropic-api)
+
+---
+
+#### 步骤 5：启动 Claude Code
+
+<details>
+<summary><b>Windows 操作</b></summary>
+
+1. 打开 **PowerShell**
+2. 进入项目目录：
+   ```powershell
+   cd D:\Projects\writing-agent  # 替换为你的实际路径
+   ```
+3. 启动 Claude Code：
+   ```powershell
+   claude
+   ```
+4. 首次启动会进行初始化，按照提示完成设置
+
+</details>
+
+<details>
+<summary><b>Linux/macOS 操作</b></summary>
+
+```bash
+cd ~/Projects/writing-agent  # 替换为你的实际路径
+claude
+```
+
+</details>
+
+---
+
+#### 步骤 6：开始使用
+
+启动成功后，直接对 Claude 说：
+
+```
+帮我写一篇关于XXX的文章
+```
+
+系统会自动引导你完成整个写作流程！
+
+---
+
+### 常见问题排查
+
+<details>
+<summary><b>问题：提示 "claude: command not found"</b></summary>
+
+**原因：** Claude Code 未正确安装或未添加到系统 PATH
+
+**解决方法：**
+1. 重新运行安装命令：`npm install -g @anthropic-ai/claude-code`
+2. 检查 npm 全局安装路径是否在 PATH 中：
+   ```powershell
+   npm config get prefix
+   ```
+3. 重启 PowerShell/终端
+
+</details>
+
+<details>
+<summary><b>问题：提示 "API authentication failed"</b></summary>
+
+**原因：** API Key 配置错误或未生效
+
+**解决方法：**
+1. 检查 `settings.json` 文件中的 API Key 是否正确
+2. 确认 API Base URL 是否正确
+3. 如果使用环境变量，重启 PowerShell 后重试
+4. 验证环境变量是否生效（参考上面的验证命令）
+
+</details>
+
+<details>
+<summary><b>问题：Windows 提示 "无法加载文件，因为在此系统上禁止运行脚本"</b></summary>
+
+**原因：** PowerShell 执行策略限制
+
+**解决方法：**
+以管理员身份运行 PowerShell，执行：
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+</details>
 
 ## 🚀 使用示例
 
