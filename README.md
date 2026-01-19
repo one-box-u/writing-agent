@@ -2,7 +2,7 @@
 
 > 🚀 一个基于 Claude Code Skills 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
 > 
-> 支持 **DeepSeek / 智谱GLM / MiniMax** 等多种国产大模型，成本极低（2000字文章约¥0.03）。
+> 支持 **DeepSeek / 智谱GLM / MiniMax** 等多种国产大模型，成本极低（如果使用智谱GLM，MiniMax等包月套餐2000字文章成本基本可以忽略不计，成本只取决于你的写文章辛勤程度）。
 > 
 > 从选题生成、风格建模到发布评审，提供完整的 AI 写作工作流。
 
@@ -30,6 +30,99 @@
 - ✅ **发布前评审 v2.0**：独创"发布前5问+红队评审"机制，强制挑刺防止虚高评分 ✨ Upgrade
 - ✅ **版本管理**：自动保存初稿、修订稿、最终稿，可追溯每次修改
 
+---
+
+## 📚 什么是 Claude Code Skills？
+
+### Skills 工作原理
+
+Claude Code Skills 是一种**扩展 Claude Code 能力的机制**，类似于 VS Code 的插件系统。
+
+**简单理解：**
+- 📁 **Skills = 一组预定义的指令和工作流**
+- 🤖 **Claude Code 会自动读取 `~/.claude/skills/` 目录下的所有 Skills**
+- 💬 **当你对话时，Claude 会根据你的需求自动调用相应的 Skill**
+
+**举个例子：**
+```
+你说："帮我写一篇关于AI的文章"
+↓
+Claude Code 自动识别这是写作需求
+↓
+调用 workflow-producer Skill（工作流导演）
+↓
+引导你完成选题 → 风格选择 → 大纲 → 写作 → 评审
+```
+
+### 本项目的 Skills 结构
+
+本项目包含 **13 个专业 Skills**，覆盖完整的写作工作流：
+
+```
+.claude/skills/
+├── 工作流导演/          # 统一调度入口
+├── 选题生成器/          # 从0生成选题
+├── 选题调研/            # 验证选题价值
+├── 澄清写作需求/        # 需求澄清
+├── 风格建模/            # 学习写作风格
+├── 调研资料/            # 素材收集
+├── 大纲架构师/          # 逻辑骨架
+├── 共情点设计师/        # 情感共鸣
+├── 具象化专家/          # 抽象转具体
+├── 标题设计师/          # 爆款标题
+├── 写作执行/            # 正式创作
+├── 主编审稿/            # 质量把关
+└── 发布前评审/          # 最终评审
+```
+
+### Skills 自动加载机制
+
+**重要说明：**
+
+1. **克隆项目后，Skills 已经在项目目录里了**
+   - 项目文件结构：`writing-agent/.claude/skills/`（包含 13 个 Skills）
+   - 这些 Skills 是项目的一部分，随项目一起下载
+
+2. **必须在项目目录中启动 Claude Code**
+   ```powershell
+   cd writing-agent        # 先进入项目目录
+   claude                  # 再启动 Claude Code
+   ```
+   
+   ⚠️ **关键**：Claude Code 只会加载**当前目录**下的 `.claude/skills/`
+   
+   - ✅ 正确：在 `writing-agent/` 目录中启动 → Skills 自动加载
+   - ❌ 错误：在其他目录启动 → Skills 不会被加载
+
+**Claude Code 的 Skills 加载规则：**
+
+1. **全局 Skills 目录**：`~/.claude/skills/`（所有项目都能用）
+2. **项目 Skills 目录**：`项目根目录/.claude/skills/`（仅当前项目可用）
+
+**本项目采用"项目级 Skills"**，这意味着：
+- ✅ 克隆项目后，Skills 已经在项目目录中（无需手动复制）
+- ✅ 在项目目录中启动 Claude Code，Skills 自动可用
+- ✅ 不会污染你的全局 Skills 目录
+- ✅ 多个项目的 Skills 互不干扰
+
+**如果你想让这些 Skills 在所有项目中都能用：**
+
+<details>
+<summary>点击查看如何复制到全局目录</summary>
+
+**Windows (PowerShell):**
+```powershell
+xcopy /E /I ".claude\skills" "$env:USERPROFILE\.claude\skills"
+```
+
+**Linux/macOS:**
+```bash
+cp -r .claude/skills/* ~/.claude/skills/
+```
+
+</details>
+
+---
 
 ## 📦 快速开始
 
@@ -197,7 +290,62 @@ claude --version
 
 ---
 
-#### 步骤 4：配置第三方 API（三种方法任选其一）
+#### 步骤 4：验证 Skills 是否正确加载
+
+在配置 API 之前，先验证项目的 Skills 是否在正确的位置。
+
+<details>
+<summary><b>Windows 验证</b></summary>
+
+1. 打开 **PowerShell**
+2. 进入项目目录：
+   ```powershell
+   cd D:\Projects\writing-agent  # 替换为你的实际路径
+   ```
+3. 检查 Skills 目录：
+   ```powershell
+   Get-ChildItem -Path ".claude\skills" -Directory
+   ```
+4. **预期输出**：应该看到 13 个 Skills 目录
+   ```
+   工作流导演
+   选题生成器
+   选题调研
+   澄清写作需求
+   风格建模
+   调研资料
+   大纲架构师
+   共情点设计师
+   具象化专家
+   标题设计师
+   写作执行
+   主编审稿
+   发布前评审
+   ```
+
+**如果没有看到这些目录：**
+- 检查是否正确克隆了项目（确认使用了 `git clone` 而不是只下载了部分文件）
+- 确认 `.claude` 目录没有被意外删除
+
+</details>
+
+<details>
+<summary><b>Linux/macOS 验证</b></summary>
+
+```bash
+cd ~/Projects/writing-agent  # 替换为你的实际路径
+ls -la .claude/skills/
+```
+
+应该看到 13 个 Skills 目录。
+
+</details>
+
+**✅ 验证通过后，继续下一步配置 API。**
+
+---
+
+#### 步骤 5：配置第三方 API（三种方法任选其一）
 
 本项目支持通过 Anthropic API 兼容接口接入多种第三方模型。以下以通用配置为例。
 
@@ -327,7 +475,7 @@ echo $ANTHROPIC_AUTH_TOKEN
 
 ---
 
-#### 步骤 5：启动 Claude Code
+#### 步骤 6：启动 Claude Code
 
 <details>
 <summary><b>Windows 操作</b></summary>
@@ -357,9 +505,29 @@ claude
 
 ---
 
-#### 步骤 6：开始使用
+#### 步骤 7：开始使用并验证 Skills
 
-启动成功后，直接对 Claude 说：
+启动成功后，先验证 Claude Code 是否识别了项目的 Skills。
+
+**验证 Skills 加载：**
+
+1. 在 Claude Code 对话中输入：
+   ```
+   你能看到哪些 Skills？
+   ```
+
+2. Claude 应该会列出所有可用的 Skills，包括：
+   - workflow-producer（工作流导演）
+   - topic-generator（选题生成器）
+   - topic-research（选题调研）
+   - 等等...
+
+**如果 Claude 没有识别到 Skills：**
+- 参考下方的"常见问题排查"部分
+
+**开始使用：**
+
+验证通过后，直接对 Claude 说：
 
 ```
 帮我写一篇关于XXX的文章
@@ -409,6 +577,54 @@ claude
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
+
+</details>
+
+<details>
+<summary><b>问题：Claude Code 没有识别到项目的 Skills</b></summary>
+
+**原因：** Claude Code 可能没有正确扫描项目目录
+
+**解决方法：**
+
+1. **确认 Skills 目录存在：**
+   ```powershell
+   # Windows
+   Test-Path ".claude\skills"
+   
+   # Linux/macOS
+   ls -la .claude/skills/
+   ```
+
+2. **确认在项目目录中启动 Claude Code：**
+   ```powershell
+   # 必须先 cd 到项目目录
+   cd D:\Projects\writing-agent
+   
+   # 然后再启动
+   claude
+   ```
+   
+   ⚠️ **重要**：Claude Code 只会加载**当前目录**下的 `.claude/skills/`，如果你在其他目录启动，Skills 不会被加载。
+
+3. **重启 Claude Code：**
+   - 完全退出 Claude Code（输入 `exit` 或按 Ctrl+C）
+   - 确认在项目目录中
+   - 再次启动 `claude`
+
+4. **手动复制到全局目录（如果项目级 Skills 无法加载）：**
+   ```powershell
+   # Windows
+   xcopy /E /I ".claude\skills" "$env:USERPROFILE\.claude\skills"
+   
+   # Linux/macOS
+   cp -r .claude/skills/* ~/.claude/skills/
+   ```
+   
+   复制到全局目录后，Skills 在所有项目中都可用。
+
+5. **验证 Skills 加载：**
+   对 Claude 说："列出所有可用的 Skills" 或 "你能看到哪些 Skills？"
 
 </details>
 
