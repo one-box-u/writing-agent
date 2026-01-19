@@ -1,4 +1,4 @@
-# 写稿Agent v0.3.3
+# 写稿Agent v0.4.0
 
 > 🚀 一个基于 Claude Code Skills 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
 > 
@@ -7,7 +7,7 @@
 > 从选题生成、风格建模到发布评审，提供完整的 AI 写作工作流。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-v0.3.3-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
+[![Version](https://img.shields.io/badge/version-v0.4.0-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
 [![Claude Code](https://img.shields.io/badge/Claude-Code%20Skills-blue)](https://code.claude.com)
 [![DeepSeek](https://img.shields.io/badge/DeepSeek-Compatible-green)](https://platform.deepseek.com)
 
@@ -27,7 +27,9 @@
 - ✅ **标题设计师**：独立 Skill，设计3种候选标题 + 爆款公式加持
 - ✅ **素材调研**：自动搜集真实数据，新增爆款拆解与痛点验证
 - ✅ **字数精准控制**：通过外部工具统计，误差控制在±20%以内
-- ✅ **发布前评审 v2.0**：独创"发布前5问+红队评审"机制，强制挑刺防止虚高评分 ✨ Upgrade
+- ✅ **发布前评审 v2.2**：独创"发布前5问+红队7项评审"机制，强制挑刺防止虚高评分 ✨ Upgrade
+- ✅ **今日头条读者模拟**：最后的守门员，模拟普通读者4道关卡测试（3秒标题/10秒开头/3分钟中间/5秒分享） ✨ New
+- ✅ **主编审稿 v2.2**：新增平淡度检测和假名人案例检测，12项AI味道量化检测 ✨ Upgrade
 - ✅ **版本管理**：自动保存初稿、修订稿、最终稿，可追溯每次修改
 
 ---
