@@ -1,13 +1,13 @@
-# 写稿Agent v0.4.0
+# 写稿Agent v0.5.0
 
-> 🚀 一个基于 Claude Code Skills 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
+> 🚀 一个基于 Claude Code Skills + Subagents 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
 > 
 > 支持 **DeepSeek / 智谱GLM / MiniMax** 等多种国产大模型，成本极低（如果使用智谱GLM，MiniMax等包月套餐2000字文章成本基本可以忽略不计，成本只取决于你的写文章辛勤程度）。
 > 
 > 从选题生成、风格建模到发布评审，提供完整的 AI 写作工作流。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-v0.4.0-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
+[![Version](https://img.shields.io/badge/version-v0.5.0-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
 [![Claude Code](https://img.shields.io/badge/Claude-Code%20Skills-blue)](https://code.claude.com)
 [![DeepSeek](https://img.shields.io/badge/DeepSeek-Compatible-green)](https://platform.deepseek.com)
 
@@ -15,67 +15,99 @@
 
 写稿Agent 是一个**协作式写作工作流系统**，通过强制性的模式选择、需求澄清、风格建模、素材调研和主编审稿，帮助你写出**不像AI生成**的高质量文章。
 
+### v0.5.0 重大架构升级 ⭐ New
+
+**引入 Subagent 模式**，实现上下文隔离：
+- 🔄 **12 个执行步骤改为独立 Subagent**，每个任务独立上下文
+- 📁 **信息通过文件传递**，不依赖对话上下文，避免 Token 累积
+- 🎯 **工作流导演 Skill 显式调用 Subagent**，保持用户交互能力
+- 💾 **每阶段产物自动落盘**，支持断点续写
+- 🔒 **独立工具 Skill 保持语义触发**（公众号文章获取、风格建模）
+
 ### 核心特点
 
-- ✅ **协作工作流**：8+2阶段深度创作模式，新增选题调研与发布评审
-- ✅ **爆款能力增强**：内置5种爆款标题公式、4种开头钩子、前50字生死线检查 ✨ New
+- ✅ **Subagent 架构**：12 个独立 Subagent 实现上下文隔离，节省 Token ✨ v0.5.0 New
+- ✅ **协作工作流**：10阶段深度创作模式，包含选题、调研、审稿完整流程
+- ✅ **爆款能力增强**：内置5种爆款标题公式、4种开头钩子、前50字生死线检查
 - ✅ **反AI味道**：自动去除小标题病、排比上瘾、格式洁癖等AI典型特征
 - ✅ **风格建模 v3.1**：支持公众号链接一键提取、多篇批量建模、增量更新风格库
-- ✅ **选题生成器**：不知道写什么？AI 基于热点、个人优势和竞品分析智能推荐选题 ✨ New
-- ✅ **自动素材归档**：提取的文章自动保存为本地 Markdown，构建个人知识库 ✨ New
+- ✅ **选题生成器**：不知道写什么？AI 基于热点、个人优势和竞品分析智能推荐选题
+- ✅ **自动素材归档**：提取的文章自动保存为本地 Markdown，构建个人知识库
 - ✅ **强制模式选择**：轻量模式（快速产出）vs 协作模式（深度创作）
-- ✅ **标题设计师**：独立 Skill，设计3种候选标题 + 爆款公式加持
+- ✅ **标题设计师**：设计3种候选标题 + 爆款公式加持
 - ✅ **素材调研**：自动搜集真实数据，新增爆款拆解与痛点验证
 - ✅ **字数精准控制**：通过外部工具统计，误差控制在±20%以内
-- ✅ **发布前评审 v2.2**：独创"发布前5问+红队7项评审"机制，强制挑刺防止虚高评分 ✨ Upgrade
-- ✅ **今日头条读者模拟**：最后的守门员，模拟普通读者4道关卡测试（3秒标题/10秒开头/3分钟中间/5秒分享） ✨ New
-- ✅ **主编审稿 v2.2**：新增平淡度检测和假名人案例检测，12项AI味道量化检测 ✨ Upgrade
+- ✅ **发布前评审 v2.2**：独创"发布前5问+红队7项评审"机制
+- ✅ **今日头条读者模拟**：最后的守门员，模拟普通读者4道关卡测试
+- ✅ **主编审稿 v2.2**：12项AI味道量化检测
 - ✅ **版本管理**：自动保存初稿、修订稿、最终稿，可追溯每次修改
 
 ---
 
-## 📚 什么是 Claude Code Skills？
+## 📚 什么是 Claude Code Skills 和 Subagents？
 
-### Skills 工作原理
+### Skills 与 Subagents 的区别
 
-Claude Code Skills 是一种**扩展 Claude Code 能力的机制**，类似于 VS Code 的插件系统。
+| 特性 | Skills | Subagents |
+|------|--------|-----------|
+| **触发方式** | 语义匹配（自动） | 显式调用（手动） |
+| **上下文** | 共享主对话 | 独立隔离 |
+| **适用场景** | 需要自动识别意图 | 需要隔离执行的任务 |
+| **Token 消耗** | 会累积 | 每个任务独立 |
 
-**简单理解：**
-- 📁 **Skills = 一组预定义的指令和工作流**
-- 🤖 **Claude Code 会自动读取 `~/.claude/skills/` 目录下的所有 Skills**
-- 💬 **当你对话时，Claude 会根据你的需求自动调用相应的 Skill**
+### 本项目的架构（v0.5.0）
 
-**举个例子：**
-```
-你说："帮我写一篇关于AI的文章"
-↓
-Claude Code 自动识别这是写作需求
-↓
-调用 workflow-producer Skill（工作流导演）
-↓
-引导你完成选题 → 风格选择 → 大纲 → 写作 → 评审
-```
-
-### 本项目的 Skills 结构
-
-本项目包含 **13 个专业 Skills**，覆盖完整的写作工作流：
+本项目采用 **Skills + Subagents 混合架构**：
 
 ```
-.claude/skills/
-├── 工作流导演/          # 统一调度入口
-├── 选题生成器/          # 从0生成选题
-├── 选题调研/            # 验证选题价值
-├── 澄清写作需求/        # 需求澄清
-├── 风格建模/            # 学习写作风格
-├── 调研资料/            # 素材收集
-├── 大纲架构师/          # 逻辑骨架
-├── 共情点设计师/        # 情感共鸣
-├── 具象化专家/          # 抽象转具体
-├── 标题设计师/          # 爆款标题
-├── 写作执行/            # 正式创作
-├── 主编审稿/            # 质量把关
-└── 发布前评审/          # 最终评审
+.claude/
+├── skills/                     # 语义触发（3个）
+│   ├── 工作流导演/             # ⭐ 核心调度器（调用所有 Subagent）
+│   ├── 公众号文章获取/         # 独立工具（检测到URL自动触发）
+│   └── 风格建模/               # 独立工具（"学习这个风格"触发）
+│
+└── agents/                     # 显式调用，上下文隔离（12个）
+    │
+    ├── ── Stage 0: 选题阶段 ──
+    ├── topic-generator.md      # 选题生成器
+    ├── topic-research.md       # 选题调研
+    │
+    ├── ── Stage 1-5: 准备阶段 ──
+    ├── writing-clarifier.md    # 澄清需求
+    ├── research-expert.md      # 调研资料
+    ├── outline-architect.md    # 大纲设计
+    ├── empathy-designer.md     # 共情点设计
+    ├── concretizer.md          # 具象化专家
+    ├── title-designer.md       # 标题设计师
+    │
+    ├── ── Stage 6: 写作阶段 ──
+    ├── writing-executor.md     # 写作执行
+    │
+    └── ── Stage 7-9: 审稿阶段 ──
+        ├── editor-review.md        # 主编审稿
+        ├── pre-publish-review.md   # 发布前评审
+        └── toutiao-reader-test.md  # 今日头条读者模拟
 ```
+
+### 工作流程示意
+
+```
+用户请求 → [工作流导演 Skill]
+    │
+    ├──→ "使用 writing-clarifier 子代理..." → 输出 01_theme.md
+    │
+    ├──→ "使用 research-expert 子代理..." → 输出 02_cases.md
+    │
+    ├──→ "使用 outline-architect 子代理..." → 输出 03_outline.md
+    │
+    └──→ ... → 最终产出 draft_final.md
+```
+
+**每个 Subagent：**
+- ✅ 干净的上下文，从 0 开始
+- ✅ 必须从文件读取前序信息
+- ✅ 只返回摘要给主导演，不传递完整文本
+- ✅ 独立隔离，避免 Token 累积
 
 ### Skills 自动加载机制
 
