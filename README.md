@@ -1,4 +1,4 @@
-# 写稿Agent v0.5.0
+# 写稿Agent v0.5.1
 
 > 🚀 一个基于 Claude Code Skills + Subagents 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
 > 
@@ -7,7 +7,7 @@
 > 从选题生成、风格建模到发布评审，提供完整的 AI 写作工作流。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-v0.5.0-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
+[![Version](https://img.shields.io/badge/version-v0.5.1-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
 [![Claude Code](https://img.shields.io/badge/Claude-Code%20Skills-blue)](https://code.claude.com)
 [![DeepSeek](https://img.shields.io/badge/DeepSeek-Compatible-green)](https://platform.deepseek.com)
 
@@ -15,30 +15,36 @@
 
 写稿Agent 是一个**协作式写作工作流系统**，通过强制性的模式选择、需求澄清、风格建模、素材调研和主编审稿，帮助你写出**不像AI生成**的高质量文章。
 
-### v0.5.0 重大架构升级 ⭐ New
+### v0.5.1 审稿质量增强 ⭐ New
+
+**解决"打分就过"的问题**，所有评审环节必须给出可执行的修改方案并等待用户确认：
+- 🎯 **标题设计师 v2.0**：15种爆款公式（分6大类）+ 5个候选 + 钩子说明
+- ✅ **发布前评审 v2.0**：每个问题都有「原文→改为」的修改方案 + 用户确认
+- ✅ **读者模拟 v2.1**：具体修改建议 + 可自动执行修改 + 修改后重新测试
+- 🔒 **强制用户确认**：不会再出现"打分就直接过去"的情况
+
+### v0.5.0 重大架构升级
 
 **引入 Subagent 模式**，实现上下文隔离：
 - 🔄 **12 个执行步骤改为独立 Subagent**，每个任务独立上下文
 - 📁 **信息通过文件传递**，不依赖对话上下文，避免 Token 累积
 - 🎯 **工作流导演 Skill 显式调用 Subagent**，保持用户交互能力
 - 💾 **每阶段产物自动落盘**，支持断点续写
-- 🔒 **独立工具 Skill 保持语义触发**（公众号文章获取、风格建模）
 
 ### 核心特点
 
-- ✅ **Subagent 架构**：12 个独立 Subagent 实现上下文隔离，节省 Token ✨ v0.5.0 New
+- ✅ **Subagent 架构**：12 个独立 Subagent 实现上下文隔离，节省 Token
 - ✅ **协作工作流**：10阶段深度创作模式，包含选题、调研、审稿完整流程
-- ✅ **爆款能力增强**：内置5种爆款标题公式、4种开头钩子、前50字生死线检查
+- ✅ **标题设计师 v2.0**：15种爆款标题公式（6大类）+ 5个候选 ✨ v0.5.1 New
 - ✅ **反AI味道**：自动去除小标题病、排比上瘾、格式洁癖等AI典型特征
 - ✅ **风格建模 v3.1**：支持公众号链接一键提取、多篇批量建模、增量更新风格库
 - ✅ **选题生成器**：不知道写什么？AI 基于热点、个人优势和竞品分析智能推荐选题
 - ✅ **自动素材归档**：提取的文章自动保存为本地 Markdown，构建个人知识库
 - ✅ **强制模式选择**：轻量模式（快速产出）vs 协作模式（深度创作）
-- ✅ **标题设计师**：设计3种候选标题 + 爆款公式加持
 - ✅ **素材调研**：自动搜集真实数据，新增爆款拆解与痛点验证
 - ✅ **字数精准控制**：通过外部工具统计，误差控制在±20%以内
-- ✅ **发布前评审 v2.2**：独创"发布前5问+红队7项评审"机制
-- ✅ **今日头条读者模拟**：最后的守门员，模拟普通读者4道关卡测试
+- ✅ **发布前评审 v2.0**：发布前5问 + 红队7项 + 具体修改建议 ✨ v0.5.1 New
+- ✅ **读者模拟 v2.1**：5人格矩阵 + 情绪曲线 + 传播路径 + 用户确认 ✨ v0.5.1 New
 - ✅ **主编审稿 v2.2**：12项AI味道量化检测
 - ✅ **版本管理**：自动保存初稿、修订稿、最终稿，可追溯每次修改
 
