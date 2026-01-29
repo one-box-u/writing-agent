@@ -78,6 +78,7 @@ description: |
 | `editor-review` | 主编审稿 |
 | `pre-publish-review` | 发布前评审 |
 | `toutiao-reader-test` | 读者模拟 |
+| `humanizer` | 去AI味专家 |
 
 ---
 
@@ -127,6 +128,8 @@ Stage 7: 使用 editor-review 子代理 → 审稿循环
 Stage 8: 使用 pre-publish-review 子代理 → 评审报告
     ↓
 Stage 9: 使用 toutiao-reader-test 子代理 → 读者测试
+    ↓
+Stage 10: 🏁 最终询问 → 是否需要 humanizer 去AI味？
 ```
 
 ---
@@ -167,6 +170,26 @@ Stage 9: 使用 toutiao-reader-test 子代理 → 读者测试
 📋 进度：[X/10] ████████░░ 80%
 
 继续下一阶段？(是/调整/跳过)
+```
+
+## Stage 10: 最终去AI味检查
+
+所有流程结束后（Stage 9 完成后），**必须**主动询问用户：
+
+```
+🏁 所有创作流程已结束！
+
+文章目前状态：[文件名]
+
+🤔 最后确认：需要我对文章进行一次强力的「去AI味」处理吗？
+我是 Humanizer 专家，我会：
+1. 删除所有空洞的形容词（如"至关重要"）
+2. 打破公式化的句子结构
+3. 注入更像真人的语气和观点
+
+请回复：
+Y - 是，请进行 Humanizer 处理（推荐）
+N - 否，保持原样结束任务
 ```
 
 ---

@@ -1,4 +1,4 @@
-# 写稿Agent v0.5.1
+# 写稿Agent v0.6.0
 
 > 🚀 一个基于 Claude Code Skills + Subagents 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
 > 
@@ -7,7 +7,7 @@
 > 从选题生成、风格建模到发布评审，提供完整的 AI 写作工作流。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-v0.5.1-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
+[![Version](https://img.shields.io/badge/version-v0.6.0-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
 [![Claude Code](https://img.shields.io/badge/Claude-Code%20Skills-blue)](https://code.claude.com)
 [![DeepSeek](https://img.shields.io/badge/DeepSeek-Compatible-green)](https://platform.deepseek.com)
 
@@ -15,8 +15,12 @@
 
 写稿Agent 是一个**协作式写作工作流系统**，通过强制性的模式选择、需求澄清、风格建模、素材调研和主编审稿，帮助你写出**不像AI生成**的高质量文章。
 
-### v0.5.1 审稿质量增强 ⭐ New
+### v0.6.0 去AI味与真实模拟 ⭐ New
+- 🤖 **Humanizer 去AI味专家**：基于 Wikipedia AI Cleanup 项目，识别并修复24种AI痕迹（内容/语言/风格），注入人类"灵魂"。
+- 📺 **读者模拟器 v3.0 直播版**：不再是冷冰冰的数据报告，而是模拟真实读者的"直播现场"——心理弹幕、真话吐槽、朋友圈截图预览。
+- 🔄 **工作流升级**：新增 **Stage 10 最终去AI味**，在所有流程结束后主动询问，完成最后一道"注入灵魂"工序。
 
+### v0.5.1 审稿质量增强
 **解决"打分就过"的问题**，所有评审环节必须给出可执行的修改方案并等待用户确认：
 - 🎯 **标题设计师 v2.0**：15种爆款公式（分6大类）+ 5个候选 + 钩子说明
 - ✅ **发布前评审 v2.0**：每个问题都有「原文→改为」的修改方案 + 用户确认
@@ -44,7 +48,8 @@
 - ✅ **素材调研**：自动搜集真实数据，新增爆款拆解与痛点验证
 - ✅ **字数精准控制**：通过外部工具统计，误差控制在±20%以内
 - ✅ **发布前评审 v2.0**：发布前5问 + 红队7项 + 具体修改建议 ✨ v0.5.1 New
-- ✅ **读者模拟 v2.1**：5人格矩阵 + 情绪曲线 + 传播路径 + 用户确认 ✨ v0.5.1 New
+- ✅ **读者模拟 v3.0**：心理弹幕 + 真话吐槽 + 朋友圈现场直播 ✨ v0.6.0 New
+- ✅ **Humanizer**：深度去AI味 + 注入灵魂（观点/节奏/细节） ✨ v0.6.0 New
 - ✅ **主编审稿 v2.2**：12项AI味道量化检测
 - ✅ **版本管理**：自动保存初稿、修订稿、最终稿，可追溯每次修改
 
@@ -89,10 +94,11 @@
     ├── ── Stage 6: 写作阶段 ──
     ├── writing-executor.md     # 写作执行
     │
-    └── ── Stage 7-9: 审稿阶段 ──
+    ├── ── Stage 7-9: 审稿阶段 ──
         ├── editor-review.md        # 主编审稿
         ├── pre-publish-review.md   # 发布前评审
-        └── toutiao-reader-test.md  # 今日头条读者模拟
+        ├── toutiao-reader-test.md  # 读者模拟直播
+        └── humanizer.md            # 去AI味专家 ✨ New
 ```
 
 ### 工作流程示意
@@ -106,7 +112,9 @@
     │
     ├──→ "使用 outline-architect 子代理..." → 输出 03_outline.md
     │
-    └──→ ... → 最终产出 draft_final.md
+    ├──→ ... → 最终产出 draft_final.md
+    │
+    └──→ "使用 humanizer 子代理..." → 最终注入灵魂 ✨ New
 ```
 
 **每个 Subagent：**
@@ -761,7 +769,14 @@ Claude 会引导你：
 □ Stage 8: 发布前把关 ✨ New
    - 发布前5问评审（标题/开头/认同/出路/分享）
     ↓
-最终输出：articles/[项目名]/draft_最终稿.md
+□ Stage 9: 读者模拟直播 ✨ New
+   - 心理弹幕/真话吐槽/朋友圈现场
+   
+□ Stage 10: 最终去AI味 ✨ New
+   - 深度扫描24种AI痕迹
+   - 注入观点与灵魂
+    ↓
+最终输出：articles/[项目名]/draft_humanized.md
 ```
 
 ### 风格建模详细教程
