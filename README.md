@@ -796,6 +796,8 @@ Claude 会引导你：
 /slash-command 使用 article-illustrator 子代理为 articles/[项目名]/draft_vX.md 生成配图
 ```
 
+**工作模式**：Agent 会先根据文章内容输出一份**配图策划书（Prompt 清单）**，**请务必检查并确认（或修改）**，确认后 Agent 才会批量执行生成并植入图片。
+
 **支持的模型**：默认使用 Google Gemini Image 模型，无需额外配置。
 
 ### 风格建模详细教程

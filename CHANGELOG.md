@@ -23,6 +23,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - 🔧 **工作流升级**：新增 **Stage 10 (去AI味)** 和 **Stage 11 (配图/视觉增强)**，完善了文章发布前的最后两公里。
+- 🔧 **交互协议强化**：Article Illustrator 现在强制执行"策划-确认-执行"三步走，严禁自动生成，确保用户有修改配图方案的机会。
+
+### Fixed
+- 🐛 修复工作流在 Stage 9 (读者测试) 结束后可能意外终止的问题，强化了进入 Stage 10 的指令。
+- 🐛 修复配图代理可能会跳过用户确认直接生成图片的问题。
 
 ## [0.5.1] - 2026-01-28
 
