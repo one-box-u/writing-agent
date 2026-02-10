@@ -1,10 +1,16 @@
-# 写稿Agent v0.6.0
+# 写稿Agent v0.6.1
 
-> 🚀 一个基于 Claude Code Skills + Subagents 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
+> 🚀 一个基于 Claude Code Skills + Subagents 的全栈写作系统。
 > 
-> 支持 **DeepSeek / 智谱GLM / MiniMax** 等多种国产大模型，成本极低（如果使用智谱GLM，MiniMax等包月套餐2000字文章成本基本可以忽略不计，成本只取决于你的写文章辛勤程度）。
+> **不仅是写作，更是打磨：**
+> *   🤖 **反AI味写作**：从选题到初稿，源头遏制 AI 腔调。
+> *   🧬 **深度 Humanizer**：注入人类观点、细节与灵魂，彻底去除机器味。
+> *   🎨 **文章配图师**：自动设计视觉风格，生成并植入高质量配图。
+> *   📺 **真实读者模拟**：模拟真实用户的"心理弹幕"与"朋友圈转发"，只为了检验传播力。
 > 
-> 从选题生成、风格建模到发布评审，提供完整的 AI 写作工作流。
+> **支持 DeepSeek / 智谱GLM / MiniMax 等多种国产大模型**，兼容 OpenAI/Gemini 接口，成本极低（使用包月套餐几可忽略不计）。
+> 
+> 从选题生成、风格建模、写作执行到发布评审与配图，提供完整的 AI 写作工作流。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/version-v0.6.0-blue.svg)](https://github.com/dongbeixiaohuo/writing-agent/releases)
@@ -17,8 +23,8 @@
 
 ### v0.6.0 去AI味与真实模拟 ⭐ New
 - 🤖 **Humanizer 去AI味专家**：基于 Wikipedia AI Cleanup 项目，识别并修复24种AI痕迹（内容/语言/风格），注入人类"灵魂"。
-- 📺 **读者模拟器 v3.0 直播版**：不再是冷冰冰的数据报告，而是模拟真实读者的"直播现场"——心理弹幕、真话吐槽、朋友圈截图预览。
-- 🔄 **工作流升级**：新增 **Stage 10 最终去AI味**，在所有流程结束后主动询问，完成最后一道"注入灵魂"工序。
+- 🎨 **Article Illustrator 文章配图师**：为文章自动设计视觉风格并生成高质量配图（封面/插图/概念图）。
+- 📺 **读者模拟器 v3.0 直播版**：模拟真实读者的"直播现场"——心理弹幕、朋友圈截图预览。
 
 ### v0.5.1 审稿质量增强
 **解决"打分就过"的问题**，所有评审环节必须给出可执行的修改方案并等待用户确认：
@@ -50,6 +56,7 @@
 - ✅ **发布前评审 v2.0**：发布前5问 + 红队7项 + 具体修改建议 ✨ v0.5.1 New
 - ✅ **读者模拟 v3.0**：心理弹幕 + 真话吐槽 + 朋友圈现场直播 ✨ v0.6.0 New
 - ✅ **Humanizer**：深度去AI味 + 注入灵魂（观点/节奏/细节） ✨ v0.6.0 New
+- ✅ **Article Illustrator**：Type × Style 双维度配图设计 + 自动生成/植入 ✨ v0.6.0 New
 - ✅ **主编审稿 v2.2**：12项AI味道量化检测
 - ✅ **版本管理**：自动保存初稿、修订稿、最终稿，可追溯每次修改
 
@@ -98,7 +105,8 @@
         ├── editor-review.md        # 主编审稿
         ├── pre-publish-review.md   # 发布前评审
         ├── toutiao-reader-test.md  # 读者模拟直播
-        └── humanizer.md            # 去AI味专家 ✨ New
+        ├── humanizer.md            # 去AI味专家 ✨ New
+        └── article-illustrator.md  # 文章配图师 ✨ New
 ```
 
 ### 工作流程示意
@@ -775,8 +783,22 @@ Claude 会引导你：
 □ Stage 10: 最终去AI味 ✨ New
    - 深度扫描24种AI痕迹
    - 注入观点与灵魂
-    ↓
-最终输出：articles/[项目名]/draft_humanized.md
+   
+□ Stage 11: 视觉增强 (配图) ✨ New
+   - 视觉风格设计 (Flat/Lofi/Cyberpunk)
+   - 自动生成 3-5 张配图并植入
+
+### 如何为文章配图
+
+如果在写作流程中没有生成配图，你可以随时手动调用 `article-illustrator` 子代理：
+
+```bash
+/slash-command 使用 article-illustrator 子代理为 articles/[项目名]/draft_vX.md 生成配图
+```
+
+**支持的模型**：默认使用 Google Gemini Image 模型，无需额外配置。
+
+### 风格建模详细教程
 ```
 
 ### 风格建模详细教程

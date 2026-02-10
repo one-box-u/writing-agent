@@ -5,6 +5,25 @@ All notable changes to 写稿Agent will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.1] - 2026-02-10
+
+### 🎨 新增：文章配图 Agent (Article Illustrator)
+
+新增独立的 `article-illustrator` 子代理，专注于为文章设计视觉风格并生成高质量配图。
+
+- **核心功能**：
+  - **双维度设计**：基于 Type (类型) × Style (风格) 理论，设计封面、插图、概念图。
+  - **策划-执行模式**：Agent 先输出配图策划案，经用户确认后，再批量调用脚本生成，确保可控性。
+  - **自动化插图**：生成的图片会自动插入到 Markdown 文档的对应位置。
+  - **多模型支持**：支持 Google Gemini 官方 API 和第三方 OpenAI 兼容接口 (如 GPTGod)，配置灵活。
+
+### Added
+- ✨ **Humanizer 去AI味专家**：基于 Wikipedia AI Cleanup 项目，深度去除 AI 痕迹，注入人类观点与细节。
+- ✨ **读者模拟器 v3.0 直播版**：升级为"直播"模式，模拟读者的心理弹幕、真话吐槽和朋友圈分享预览。
+
+### Changed
+- 🔧 **工作流升级**：新增 **Stage 10 (去AI味)** 和 **Stage 11 (配图/视觉增强)**，完善了文章发布前的最后两公里。
+
 ## [0.5.1] - 2026-01-28
 
 ### 🎯 增强审稿质量：具体修改建议 + 用户确认

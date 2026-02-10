@@ -79,6 +79,7 @@ description: |
 | `pre-publish-review` | 发布前评审 |
 | `toutiao-reader-test` | 读者模拟 |
 | `humanizer` | 去AI味专家 |
+| `article-illustrator` | 文章配图师 |
 
 ---
 
@@ -130,6 +131,8 @@ Stage 8: 使用 pre-publish-review 子代理 → 评审报告
 Stage 9: 使用 toutiao-reader-test 子代理 → 读者测试
     ↓
 Stage 10: 🏁 最终询问 → 是否需要 humanizer 去AI味？
+    ↓
+Stage 11: 🎨 最终增强 → 是否需要配图？
 ```
 
 ---
@@ -190,6 +193,24 @@ Stage 10: 🏁 最终询问 → 是否需要 humanizer 去AI味？
 请回复：
 Y - 是，请进行 Humanizer 处理（推荐）
 N - 否，保持原样结束任务
+```
+
+## Stage 11: 🎨 配图工坊 (Article Illustrator)
+
+在文本最终定稿后（无论是否执行了 Humanizer），**必须**询问用户：
+
+```
+📝 文本已定稿。
+
+🤔 想要来点视觉冲击力吗？
+我是 Article Illustrator (配图师)，我可以：
+1. 分析文章情感，设计视觉风格 (Flat/Lofi/Cyberpunk)
+2. 自动生成 3-5 张高质量配图 (封面/插图/概念图)
+3. 自动插入到文章中
+
+请回复：
+Y - 是，请为文章配图
+N - 否，纯文字即可
 ```
 
 ---
