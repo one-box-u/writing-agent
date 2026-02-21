@@ -1,8 +1,9 @@
 # 临时文件
 articles/temp_count.txt
 
-# 用户生成的文章（可选：如果不想提交到 GitHub）
-# articles/*.md
+# 用户生成的文章和素材（不提交到 GitHub）
+articles/
+docs/
 
 # 用户自定义的风格（可选：如果不想分享）
 # .claude/styles/*.md
@@ -22,3 +23,5 @@ Thumbs.db
 
 # 依赖（如果将来添加）
 node_modules/
+docs/
+.env

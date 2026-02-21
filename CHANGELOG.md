@@ -5,6 +5,16 @@ All notable changes to 写稿Agent will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.2] - 2026-02-21
+
+### Changed
+- 🔧 **工作流收尾机制增强 (Stage 12)**：新增全局必定触发的终极收尾步骤。无论在 Stage 9、10 还是 11 结束，工作流导演都必须自动生成一份无多余空行、无 Markdown 标记的 `[文章名]_clean.txt` 排版纯净版，方便直接复制到微信公众号等编辑器格式化发布。
+- 🔧 **交互引导优化**：在 `toutiao-reader-test` (Stage 9) 结束后注入防漏网的新手引导选项面板，强制输出 Stage 10/11 进阶阶段的功能介绍，去除了容易引发"代理提前完结幻觉"的措辞。
+- 🗑️ **冗余逻辑清理**：移除原本存在于 `humanizer` (去AI味专家) 子代理中重复的纯净版 txt 导出逻辑，已将其架构升级封装进全局收尾流程（Stage 12）中。
+
+### Fixed
+- 🐛 修复 `workflow-producer` (工作流导演) 经常在 Stage 9 结束时因为看到"测试通过"等字眼，擅自输出大结局回顾导致后续深加工阶段无法向用户展示的缺陷。新增"严禁早退"核心禁令。
+
 ## [0.6.1] - 2026-02-10
 
 ### 🎨 新增：文章配图 Agent (Article Illustrator)
@@ -22,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✨ **读者模拟器 v3.0 直播版**：升级为"直播"模式，模拟读者的心理弹幕、真话吐槽和朋友圈分享预览。
 
 ### Changed
-- 🔧 **工作流升级**：新增 **Stage 10 (去AI味)** 和 **Stage 11 (配图/视觉增强)**，完善了文章发布前的最后两公里。
+- 🔧 **工作流升级**：新增 **Stage 10 (去AI味)** 和 **Stage 11 (配图/视觉增强)**，完善了文章发布前的最后两公里。新增 **Stage 12 (导出纯净版)**，作为流程大结局的防漏网标配。
 - 🔧 **交互协议强化**：Article Illustrator 现在强制执行"策划-确认-执行"三步走，严禁自动生成，确保用户有修改配图方案的机会。
 
 ### Fixed
