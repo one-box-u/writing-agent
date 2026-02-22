@@ -1,231 +1,85 @@
 # Writing Agent - OpenClaw Adaptation
 
-> 🚀 An "anti-AI flavor" writing system for OpenClaw, making AI-generated content read naturally like human writing.
+> 🚀 An intelligent writing system built on the OpenClaw framework, dedicated to generating high-quality content with "human warmth."
 
-## ⭐ Core Features
+## 🎯 Core Capability Matrix
 
-- 🤖 **Humanizer**: Identifies and fixes 24 types of AI writing patterns, injects human "soul"
-- 🎨 **Image Generation**: Supports multiple image generation services, auto design visual style
-- 📺 **Reader Simulation**: Simulates real reader psychological comments and social media previews
-- ✍️ **Complete Workflow**: 14-stage deep writing mode
-
----
-
-## Three Writing Modes
-
-| Mode | Command Example | Use Case | Steps |
-|------|-----------------|----------|-------|
-| **Lightweight** | Write a lightweight article about xxx | Short posts (≤1000 words), essays | 3-4 steps |
-| **Collaborative** | Write an article about xxx (default) | Long articles (>1500 words), deep analysis | 12 steps |
-| **From Topic** | I want to write but don't know what | No inspiration, need topic ideas | 5 steps → Collaborative |
+| Capability | Description | Implementation |
+|:-----------|:------------|:---------------|
+| **Humanizer** | Identifies and fixes 24 AI writing patterns, injects "human soul" | Vocabulary cleansing + Syntactic breaking + Opinion injection + Sensory enhancement |
+| **Image Generator** | Auto-analyzes article sentiment, generates matching covers/illustrations | Sentiment analysis → Style design → AI generation → Auto-embedding |
+| **Reader Simulator** | Simulates real reader "psychological comments" & social media previews | Psychological curve modeling + Comment generation + Spread prediction |
+| **Collaborative Workflow** | 12-stage deep creation ensuring content quality | Sub-agent matrix + Stage gates + Artifact persistence |
 
 ---
 
-## Mode A: Lightweight (Quick Output)
+## 🛠️ Writing Mode System
 
-### Use Case
-- Short articles (≤1000 words)
-- Essays, reflections
-- Complete materials already available
+This system provides three differentiated writing modes to balance efficiency and depth:
 
-### Complete Workflow
+| Mode | Core Logic | Use Case | Interaction Depth |
+|:-----|:-----------|:---------|:-----------------|
+| **Lite Mode** | Clarify → Execute → Output | Short posts, essays, social media | 4-stage quick flow |
+| **Pro Mode** | Research + Structure + Emotion + Review | In-depth analysis, tech columns, long-form | 12-stage闭环 |
+| **Ideation Mode** | Hot topics → Topic planning → Convert to Pro | No inspiration, SEO-focused content | 5-stage guide |
+
+---
+
+## 📐 System Architecture & Workflow
+
+### Professional Collaborative Mode (12-Stage Full Lifecycle)
 
 ```
-Step 1: Requirement Clarification
-  ↓
-  Use writing-clarifier subagent
-  ↓
-  Output: 01_theme.md (theme, target readers, core观点)
-  ↓
-Step 2: User Confirmation
-  ↓
-  Show clarification results
-  ↓
-  Wait for user confirmation
-  ↓
-Step 3: Writing Execution
-  ↓
-  Use writing-executor subagent
-  ↓
-  Output: draft.md
-  ↓
-Step 4: Simple Review (Optional)
-  ↓
-  Use editor-review for quick review
-  ↓
-  Output: review comments
-  ↓
-Step 5: Final Processing
-  ↓
-  Generate clean txt
-  ↓
-  Ask if images needed
+Requirement Clarification → Material Research → Outline Architecture → Empathy Design → Concretization
+     ↓
+Title Design → Draft Execution → Editor Review → Pre-Publish Review → Reader Simulation
+     ↓
+Humanizer → Illustration → Clean Output
 ```
 
 ---
 
-## Mode B: Collaborative ⭐ (Deep Writing)
+## 🤖 Sub-Agent Matrix
 
-### Use Case
-- Long articles (>1500 words)
-- Deep analysis
-- Content requiring data/case support
-
-### Complete Workflow (12 Stages)
-
-```
-┌────────────────────────────────────────────────────────────────┐
-│                Collaborative Mode - 12 Stages                  │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  Stage 1: Requirement Clarification                            │
-│    Subagent: writing-clarifier                                 │
-│    Output: 01_theme.md                                        │
-│    Content: Theme, target readers, core viewpoint             │
-│    ↓                                                           │
-│  Stage 2: Research                                            │
-│    Subagent: research-expert                                 │
-│    Output: 02_cases.md                                       │
-│    Content: Industry data, case analysis                      │
-│    ↓                                                           │
-│  Stage 3: Outline Design                                       │
-│    Subagent: outline-architect                               │
-│    Output: 03_outline.md                                     │
-│    Content: Article structure, chapter planning                │
-│    ↓                                                           │
-│  Stage 4: Empathy Design                                       │
-│    Subagent: empathy-designer                                 │
-│    Output: 04_empathy_map.md                                 │
-│    Content: Reader pain points, emotional resonance           │
-│    ↓                                                           │
-│  Stage 5: Concretization                                      │
-│    Subagent: concretizer                                       │
-│    Output: 05_concrete_library.md                            │
-│    Content: Specific cases, real stories, details             │
-│    ↓                                                           │
-│  Stage 5.5: Title Design                                      │
-│    Subagent: title-designer                                   │
-│    Output: 5 candidate titles + hook explanations             │
-│    Content: 15 viral title formulas                           │
-│    ↓                                                           │
-│  Stage 6: Writing Execution                                   │
-│    Subagent: writing-executor                                 │
-│    Output: draft_v1.md                                       │
-│    Content: Complete first draft                               │
-│    ↓                                                           │
-│  Stage 7: Editor Review                                       │
-│    Subagent: editor-review (multiple rounds)                 │
-│    Output: Review report + revisions                          │
-│    Content: 12 AI flavor checks, structure optimization      │
-│    ↓                                                           │
-│  Stage 8: Pre-Publish Review                                  │
-│    Subagent: pre-publish-review                              │
-│    Output: Review report + suggestions                        │
-│    Content: 5 pre-publish questions, red team checks         │
-│    ↓                                                           │
-│  Stage 9: Reader Simulation                                   │
-│    Subagent: toutiao-reader-test                            │
-│    Output: Reader feedback + spread prediction                │
-│    Content: Psychological comments, social media preview       │
-│    ↓                                                           │
-│  Stage 10: Humanizer ⭐                                       │
-│    Subagent: humanizer                                        │
-│    Output: Final draft after de-AI                            │
-│    Content: Remove empty adjectives, break formulaic structure │
-│    ↓                                                           │
-│  Stage 11: Article Illustration                               │
-│    Subagent: article-illustrator (optional)                  │
-│    Output: Images + inserted into article                   │
-│    Content: Visual style design, cover/illustration           │
-│    ↓                                                           │
-│  Stage 12: Final Cleanup                                      │
-│    Output: [filename]_clean.txt                             │
-│    Content: Remove Markdown, no blank lines, clean text      │
-│                                                                │
-└────────────────────────────────────────────────────────────────┘
-```
+| Component | Core Responsibility | Key Artifacts |
+|:----------|:-------------------|:--------------|
+| `writing-clarifier` | Excavate writing intent, define audience & style | `01_theme.md` |
+| `topic-generator` | Generate topic candidates based on trends & strengths | `topics.md` |
+| `topic-research` | Validate topic feasibility (data/competitors/interest) | `topic_report.md` |
+| `research-expert` | Real-time retrieval of industry data & cases | `02_cases.md` |
+| `outline-architect` | Build pyramid structure, plan logic flow | `03_outline.md` |
+| `empathy-designer` | Map reader psychology, locate emotional resonance | `04_empathy_map.md` |
+| `concretizer` | Inject specific cases, real stories, details | `05_concrete_library.md` |
+| `title-designer` | Generate high-CTR titles via 15 viral formulas | `titles.md` |
+| `writing-executor` | Execute draft writing | `draft_*.md` |
+| `editor-review` | Editor-level deep review, 12 AI-flavor checks | `review_report.md` |
+| `pre-publish-review` | Pre-publish compliance & quality review | `publish_review.md` |
+| `toutiao-reader-test` | Reader simulation, comments & spread prediction | `reader_test.md` |
+| `humanizer` | Execute non-linear rewriting, eliminate AI smoothness | `final.md` |
+| `article-illustrator` | Visual style design + image generation | `images/` |
 
 ---
 
-## Mode C: From Topic
+## 🔬 Humanizer Core Algorithm
 
-### Use Case
-- Don't know what to write
-- Have writing demand but no inspiration
-- Need to leverage hot topics for topic ideas
+The system forces breaks from LLM's predictive probability model through:
 
-### Complete Workflow
-
-```
-Step 1: Ask for Domain
-  ↓
-  Understand what field user wants to write about
-  ↓
-  Example: Tech, Career, Emotion, Parenting, Investment...
-  ↓
-Step 2: Topic Generation
-  ↓
-  Use topic-generator subagent
-  ↓
-  Based on three dimensions:
-  - Current hot topics
-  - Personal unique advantages
-  - Competitor differentiation
-  ↓
-  Output: 5-10 candidate topics
-  ↓
-Step 3: User Selection
-  ↓
-  Display candidate topics
-  ↓
-  Let user select or modify
-  ↓
-Step 4: Topic Research
-  ↓
-  Use topic-research subagent
-  ↓
-  Validate topic feasibility:
-  - Data support
-  - Competitor coverage
-  - Reader interest
-  ↓
-  Output: Topic validation report
-  ↓
-Step 5: Enter Collaborative Mode
-  ↓
-  After topic confirmed
-  ↓
-  Auto-enter Collaborative Mode Stage 1
-  ↓
-  Continue complete writing workflow
-```
+1. **Vocabulary Layer**: Remove AI高频填充词 like "in conclusion", "key point is", replace with action-oriented concrete words.
+2. **Syntax Layer**: Introduce sentence length variation (Burstiness) to break LLM's uniform sentence tendency.
+3. **Opinion Layer**: Require agents to propose controversial or unique perspectives based on materials.
+4. **Perception Layer**: Force inject five-sense descriptions (auditory, visual, tactile) to give text "on-site feeling."
 
 ---
 
-## Subagents Reference
+## ⚙️ Configuration & Quick Start
 
-| Subagent | Function | Output File |
-|----------|----------|------------|
-| `writing-clarifier` | Clarify requirements | 01_theme.md |
-| `topic-generator` | Generate topics | topics.md |
-| `topic-research` | Research topic | topic_report.md |
-| `research-expert` | Gather materials | 02_cases.md |
-| `outline-architect` | Design outline | 03_outline.md |
-| `empathy-designer` | Design empathy | 04_empathy_map.md |
-| `concretizer` | Concretize details | 05_concrete_library.md |
-| `title-designer` | Design titles | titles.md |
-| `writing-executor` | Execute writing | draft_*.md |
-| `editor-review` | Editor review | review_*.md |
-| `pre-publish-review` | Pre-publish review | publish_review.md |
-| `toutiao-reader-test` | Reader simulation | reader_test.md |
-| `humanizer` | De-AI flavor | final.md |
-| `article-illustrator` | Article images | images/ |
+### Environment Dependencies
 
----
+- OpenClaw Framework
+- Python 3.10+
+- API Keys: MiniMax / DeepSeek / Zhipu GLM (optional)
 
-## Configuration
-
-### config.json
+### Configuration (config.json)
 
 ```json
 {
@@ -239,16 +93,17 @@ Step 5: Enter Collaborative Mode
     "model": "nano-banana"
   },
   "search": {
-    "provider": "tavily"
+    "provider": "tavily",
+    "api_key": "YOUR_TAVILY_KEY"
   }
 }
 ```
 
 ### Supported Models
 
-| Model | provider | Recommended | Features |
-|-------|----------|-------------|----------|
-| MiniMax | `minimax` | ⭐⭐⭐ | Cost-effective |
+| Model | Provider ID | Recommended | Use Case |
+|:------|:-----------|:------------|:---------|
+| MiniMax M2.1/M2.5 | `minimax` | ⭐⭐⭐ | Best cost-performance |
 | DeepSeek | `deepseek` | ⭐⭐⭐ | Open source friendly |
 | Alibaba Qwen | `qwen` | ⭐⭐ | Stable |
 | Zhipu GLM | `glm` | ⭐⭐ | Chinese optimized |
@@ -256,131 +111,79 @@ Step 5: Enter Collaborative Mode
 
 ---
 
-## Usage Examples
+## 📖 Usage Examples
 
-### Example 1: Lightweight Mode
+### Lite Mode
+
 ```
 User: Write a lightweight article about side income
 
 Agent:
 🎬 Please select writing mode:
-[A. Lightweight]...
-[B. Collaborative]...
-[C. From Topic]...
+[A] Lite Mode - Quick output (short posts/essays)
+[B] Pro Mode - Deep writing (recommended)
+[C] Ideation Mode - Start from topic
 
 User: A
 
-Agent:
-OK, entering lightweight mode. Please describe your writing needs:
-- What's the topic?
-- Who is the target reader?
-- What core message?
+→ Enter 4-stage quick flow
 ```
 
-### Example 2: Collaborative Mode
+### Pro Mode
+
 ```
 User: Write an article about 35-year-old career crisis
 
 Agent:
-🎬 Please select writing mode:...
+🎬 Please select writing mode... (User selects B)
 
-User: B
-
-Agent:
-OK, entering Collaborative Mode (recommended!)
-
-Please describe your writing needs:
-- What's the topic? (35-year-old career crisis)
-- Who is the target reader? (30-40 year old professionals)
-- Core viewpoint? (Mid-life crisis is not inevitable...)
-- Style preference? (Analysis/Emotional/Case stories?)
-
-📋 Progress: [1/12] Stage 1: Requirement Clarification
+→ Enter 12-stage closed loop:
+  Stage 1: Requirement → 01_theme.md
+  Stage 2: Research → 02_cases.md
+  ...
+  Stage 12: Clean output → [filename]_clean.txt
 ```
 
 ---
 
-## Humanizer (De-AI Flavor)
-
-This is the core feature - solves "AI writing too flat" problem:
-
-### Detects 24 AI Patterns
-
-**Content Level**:
-- Empty adjectives ("very important")
-- Generic statements ("we need to balance...")
-- Lack of specific examples
-
-**Language Level**:
-- Overuse of connectors
-- Uniform sentence length
-- Lack of colloquial expressions
-
-**Style Level**:
-- Over-formatting
-- Lack of personal opinion
-- Too neutral
-
-### De-AI Methods
-
-1. Remove empty words
-2. Break formulaic structures
-3. Inject personal opinions
-4. Use concrete stories
-5. Add colloquial expressions
-
----
-
-## Directory Structure
+## 📂 Output Structure
 
 ```
-writing-agent/
-├── agents/                       # 14 writing subagents
-│   ├── writing-clarifier.md
-│   ├── topic-generator.md
-│   ├── topic-research.md
-│   ├── research-expert.md
-│   ├── outline-architect.md
-│   ├── empathy-designer.md
-│   ├── concretizer.md
-│   ├── title-designer.md
-│   ├── writing-executor.md
-│   ├── editor-review.md
-│   ├── pre-publish-review.md
-│   ├── toutiao-reader-test.md
-│   ├── humanizer.md
-│   └── article-illustrator.md
-│
-├── workflow-director/
-│   └── SKILL.md
-│
-├── styles/
-│   └── README.md
-│
-├── config.json
-├── config.json.template
-└── SKILL.md
+articles/
+└── [project-name]/
+    ├── 01_theme.md              # Theme definition
+    ├── 02_cases.md             # Research materials
+    ├── 03_outline.md           # Article outline
+    ├── 04_empathy_map.md       # Empathy map
+    ├── 05_concrete_library.md   # Concrete library
+    ├── titles.md               # Candidate titles
+    ├── draft_v1.md            # First draft
+    ├── draft_v2.md            # Revised draft
+    ├── review_*.md             # Review records
+    ├── reader_test.md          # Reader simulation
+    ├── final.md                # Final draft
+    └── [name]_clean.txt       # Clean version
 ```
 
 ---
 
-## Core Rules
+## 🔒 Core Rules
 
-1. **Must ask for mode first**: Never skip mode selection
-2. **Never write directly**: Must clarify requirements first
-3. **Use subagents**: Execute tasks through subagents
-4. **Save outputs**: Each stage saves to file
-5. **Show progress**: Let user know current stage
-6. **Key confirmations**: Outline, titles need user confirmation
-7. **Never quit early**: Must complete all stages in collaborative mode
-8. **Generate clean version**: Final output as plain txt
+1. **Mode First**: Any writing request must guide user to select mode first
+2. **Sub-Agent Driven**: Use sub-agent matrix for context isolation & specialization
+3. **Artifact Persistence**: Each stage output auto-persisted as Markdown
+4. **Progress Visualization**: Real-time display of current stage & completion
+5. **Key Gatekeepers**: Outline, title and other key nodes require user confirmation
+6. **No Early Exit**: Collaborative mode must complete all 12 stages
+7. **Clean Output**: Generate plain text without Markdown syntax
 
 ---
 
-## License
+## 📜 License
 
 MIT License - See [LICENSE](./LICENSE)
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
-Original project: [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
+- Original Project: [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
+- Inspiration: Wikipedia AI Cleanup Project
