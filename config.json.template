@@ -1,0 +1,46 @@
+{
+  "name": "写作Agent",
+  "name_en": "writing-agent",
+  "version": "0.6.1",
+  "description": "基于OpenClaw的'反AI味'写作系统",
+  "model": {
+    "provider": "auto",
+    "model_id": "",
+    "api_key": "",
+    "api_base": "",
+    "fallback": "minimax/MiniMax-M2.1"
+  },
+  "image": {
+    "provider": "nano-banana",
+    "model": "nano-banana",
+    "size": "1024x1024",
+    "path": "/root/.openclaw/workspace/skills/image-generation/subskills/nano-banana/nano_banana_client.py"
+  },
+  "search": {
+    "provider": "tavily",
+    "max_results": 5
+  },
+  "workflow": {
+    "default_mode": "collaborative",
+    "stages": [
+      "topic-generator",
+      "topic-research", 
+      "writing-clarifier",
+      "research-expert",
+      "outline-architect",
+      "empathy-designer",
+      "concretizer",
+      "title-designer",
+      "writing-executor",
+      "editor-review",
+      "pre-publish-review",
+      "reader-simulator",
+      "humanizer"
+    ]
+  },
+  "paths": {
+    "articles": "./articles",
+    "styles": "./styles",
+    "output": "./output"
+  }
+}
