@@ -1,3 +1,9 @@
+# 导航 | Navigation
+
+[中文介绍](./README_ZH.md) | [English Docs](./README_EN.md)
+
+---
+
 # Writing Agent - OpenClaw 适配版
 
 > 🚀 基于 OpenClaw 框架的智能写作系统，专注于生成具有"人类温度"的高质量内容。
@@ -20,7 +26,7 @@
 | 模式 | 核心逻辑 | 适用场景 | 交互深度 |
 |:--- |:---------|:---------|:---------|
 | **轻量模式 (Lite)** | 需求澄清 → 快速执行 → 终态输出 | 短文、随笔、社交媒体动态 | 4 阶段快连 |
-| **专业协作模式 (Pro)** | 调研 + 架构 + 情感设计 + 迭代审稿 | 深度行业分析、技术专栏、长篇报道 | 12 阶段闭环 |
+| **专业协作模式 (Pro)** | 调研 + 架构 + 情感设计 + 迭代审稿 | 深度行业分析、技术专栏，长篇报道 | 12 阶段闭环 |
 | **灵感激发模式 (Ideation)** | 热点扫描 → 选题策划 → 确认后转 Pro | 缺乏切入点的命题创作、SEO 关键词获客 | 5 阶段引导 |
 
 ---
@@ -65,7 +71,7 @@ Humanizer去AI → 配图工坊 → 纯净版输出
 系统通过以下维度强制打破 LLM 的预测概率模型：
 
 1. **词汇层**：强制剔除"总之"、"关键在于"、"协同作用"等 AI 高频填充词，替换为更具动作感的具象词汇。
-2. **句法层**：引入长短句交替（Burstiness），打破 LLM 倾向于生成长度均衡句子的惯性。
+2. **句法层**：引入长短句交替（Burstiness)，打破 LLM 倾向于生成长度均衡句子的惯性。
 3. **观点层**：要求代理基于素材提出具有争议性或独特视角见解，而非中庸的总结。
 4. **感知层**：强制注入五感描述（听觉、视觉、触觉等）使文字具备"现场感"。
 
@@ -187,3 +193,17 @@ MIT License - See [LICENSE](./LICENSE)
 
 - 原项目：[dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
 - 灵感来源：Wikipedia AI Cleanup Project
+
+---
+
+## About | 关于
+
+### English
+Writing Agent is an intelligent writing system built on the OpenClaw framework, dedicated to generating high-quality content with "human warmth." Through the 12-stage professional workflow and Humanizer technology, it effectively addresses the common "AI flavor" issue in AI-generated content.
+
+This project is adapted from [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent), customized for the OpenClaw ecosystem.
+
+### 中文
+写作 Agent 是基于 OpenClaw 框架的智能写作系统，专注于生成具有"人类温度"的高质量内容。通过 12 阶段专业工作流与 Humanizer 技术，有效解决 AI 生成内容的"AI 味"痛点。
+
+本项目由 [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent) 适配而来，针对 OpenClaw 生态进行了定制优化。
