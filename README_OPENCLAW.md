@@ -146,6 +146,11 @@ README 里大量出现：
 ### 关键差异
 与上游不同的是：
 - **Stage 12 在 OpenClaw 中不要依赖 Hook，改为显式执行。**
+- 当前仓库已提供可直接使用的入口：
+
+```bash
+python scripts/openclaw_stage12_runner.py --project [项目名]
+```
 
 这是最重要的适配点。
 

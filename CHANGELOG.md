@@ -5,6 +5,21 @@ All notable changes to 写稿Agent will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [openclaw-2026.03.16] - 2026-03-16
+
+### Added
+- ✅ **OpenClaw 显式 Stage 12 导出入口**：新增 `scripts/openclaw_stage12_runner.py`，用于在 OpenClaw 中显式生成 `_clean.txt`，不再依赖 Claude Code Hook 黑盒。
+- ✅ **OpenClaw 专项文档**：新增 `README_OPENCLAW.md`、`OPENCLAW_EXECUTION_MAP.md`、`OPENCLAW_ADAPTATION_PLAN.md`。
+
+### Changed
+- 🔄 **同步上游 v0.7.0 核心能力到 openclaw 分支**：引入 `memory-loader`、`edit-diff-learner`、`00_memory_packet.md` / `99_episode.md` 记忆闭环，以及新版主力代理与 workflow 设计。
+- 📝 **README 系列文档整体对齐当前代码功能形态**：中文首页、中文详细说明、英文说明均已按实际代码状态更新。
+- 🛠️ **公众号文章提取 skill 的路径兼容修复**：移除作者本机绝对路径，改为项目内相对路径 / 更可移植的解析方式。
+
+### Fixed
+- 🐛 修复 OpenClaw 环境下 Stage 12 依赖 Hook 不透明的问题。
+- 🐛 修复部分文档与当前代码阶段数、代理数量、执行方式不一致的问题。
+
 ## [0.7.0] - 2026-03-15
 
 ### Added

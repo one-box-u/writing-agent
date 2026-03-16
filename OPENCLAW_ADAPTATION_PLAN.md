@@ -205,27 +205,27 @@ README / SKILL 里大量描述：
 
 ---
 
-## 6. 迁移执行顺序
+## 6. 迁移执行结果
 
-### 阶段 A：代码追平（已完成）
-- [x] 创建升级分支
+### 阶段 A：代码追平
 - [x] 同步上游 v0.7.0
 
-### 阶段 B：适配设计（进行中）
+### 阶段 B：适配设计
 - [x] 识别 Hook 依赖
 - [x] 识别 OpenClaw / Claude Code 运行边界
-- [ ] 输出 OpenClaw 使用文档
-- [ ] 输出执行映射文档
+- [x] 输出 OpenClaw 使用文档
+- [x] 输出执行映射文档
 
 ### 阶段 C：最小可运行适配
-- [ ] 确定 Stage 12 在 OpenClaw 中的触发方式
-- [ ] 如需要，新增显式 clean runner
-- [ ] 验证 `generate_clean.py` 可独立工作
-- [ ] 验证 `memory-loader` / `edit-diff-learner` 的文件约定是否闭环
+- [x] 确定 Stage 12 在 OpenClaw 中的触发方式
+- [x] 新增显式 clean runner：`scripts/openclaw_stage12_runner.py`
+- [x] 验证 `generate_clean.py` 可独立工作
+- [x] 验证 OpenClaw 下 `_clean.txt` 可实际产出
 
 ### 阶段 D：可移植性修复
-- [ ] 清理 skill 中的绝对路径
-- [ ] 清理过强的 Claude 专属文案（通过新增 OpenClaw 文档而非重写上游 README）
+- [x] 清理部分 skill 中的绝对路径
+- [x] 清理部分过强的 Claude 专属说明
+- [x] 将 README 与当前代码功能形态对齐
 
 ---
 
@@ -258,3 +258,4 @@ README / SKILL 里大量描述：
 ## 9. 一句话结论
 
 这次升级已经完成“追平上游”；接下来的重点不再是抄代码，而是把 **Claude Code 专属运行假设** 拆出来，换成 **OpenClaw 可见、可调试、可持续同步** 的适配层。
+��经完成“追平上游”；接下来的重点不再是抄代码，而是把 **Claude Code 专属运行假设** 拆出来，换成 **OpenClaw 可见、可调试、可持续同步** 的适配层。
