@@ -1,121 +1,119 @@
 # Writing Agent - OpenClaw Adaptation
 
-> 🚀 An intelligent writing system built on the OpenClaw framework, dedicated to generating high-quality content with "human warmth."
+> 🚀 An intelligent writing system built on OpenClaw, focused on generating high-quality content with real human texture.
 
-## 🎯 Core Capability Matrix
-
-| Capability | Description | Implementation |
-|:-----------|:------------|:---------------|
-| **Humanizer** | Identifies and fixes 24 AI writing patterns, injects "human soul" | Vocabulary cleansing + Syntactic breaking + Opinion injection + Sensory enhancement |
-| **Image Generator** | Auto-analyzes article sentiment, generates matching covers/illustrations | Sentiment analysis → Style design → AI generation → Auto-embedding |
-| **Reader Simulator** | Simulates real reader "psychological comments" & social media previews | Psychological curve modeling + Comment generation + Spread prediction |
-| **Collaborative Workflow** | 12-stage deep creation ensuring content quality | Sub-agent matrix + Stage gates + Artifact persistence |
+中文说明：[`README.md`](./README.md) / [`README_ZH.md`](./README_ZH.md)
 
 ---
 
-## 🛠️ Writing Mode System
+## 🆕 Update Notes (2026-03-16)
 
-This system provides three differentiated writing modes to balance efficiency and depth:
+This branch has been synced with the core capabilities of upstream `writing-agent v0.7.0`, while also being adapted into a runnable OpenClaw-oriented flow.
 
-| Mode | Core Logic | Use Case | Interaction Depth |
-|:-----|:-----------|:---------|:-----------------|
-| **Lite Mode** | Clarify → Execute → Output | Short posts, essays, social media | 4-stage quick flow |
-| **Pro Mode** | Research + Structure + Emotion + Review | In-depth analysis, tech columns, long-form | 12-stage闭环 |
-| **Ideation Mode** | Hot topics → Topic planning → Convert to Pro | No inspiration, SEO-focused content | 5-stage guide |
+### What was upgraded
 
----
+- **Synced upstream v0.7.0 core capabilities**
+  - Added `memory-loader`
+  - Added `edit-diff-learner`
+  - Added the `00_memory_packet.md` / `99_episode.md` memory loop
+  - Synced newer versions of `humanizer`, `writing-executor`, `outline-architect`, `title-designer`, and other major agents
 
-## 📐 System Architecture & Workflow
+- **Added explicit OpenClaw execution path**
+  - Added `scripts/openclaw_stage12_runner.py`
+  - OpenClaw no longer has to depend on Claude Code Hook behavior to generate `_clean.txt`
+  - Stage 12 can now be executed explicitly for better orchestration and debugging
 
-### Professional Collaborative Mode (12-Stage Full Lifecycle)
+- **Fixed host-environment compatibility issues**
+  - Removed author-machine absolute paths from the web article extraction skill
+  - Replaced multiple `~/.claude/...` examples with project-relative paths
+  - Preserved upstream protocol-layer structure while improving OpenClaw portability
 
-```
-Requirement Clarification → Material Research → Outline Architecture → Empathy Design → Concretization
-     ↓
-Title Design → Draft Execution → Editor Review → Pre-Publish Review → Reader Simulation
-     ↓
-Humanizer → Illustration → Clean Output
-```
-
----
-
-## 🤖 Sub-Agent Matrix
-
-| Component | Core Responsibility | Key Artifacts |
-|:----------|:-------------------|:--------------|
-| `writing-clarifier` | Excavate writing intent, define audience & style | `01_theme.md` |
-| `topic-generator` | Generate topic candidates based on trends & strengths | `topics.md` |
-| `topic-research` | Validate topic feasibility (data/competitors/interest) | `topic_report.md` |
-| `research-expert` | Real-time retrieval of industry data & cases | `02_cases.md` |
-| `outline-architect` | Build pyramid structure, plan logic flow | `03_outline.md` |
-| `empathy-designer` | Map reader psychology, locate emotional resonance | `04_empathy_map.md` |
-| `concretizer` | Inject specific cases, real stories, details | `05_concrete_library.md` |
-| `title-designer` | Generate high-CTR titles via 15 viral formulas | `titles.md` |
-| `writing-executor` | Execute draft writing | `draft_*.md` |
-| `editor-review` | Editor-level deep review, 12 AI-flavor checks | `review_report.md` |
-| `pre-publish-review` | Pre-publish compliance & quality review | `publish_review.md` |
-| `toutiao-reader-test` | Reader simulation, comments & spread prediction | `reader_test.md` |
-| `humanizer` | Execute non-linear rewriting, eliminate AI smoothness | `final.md` |
-| `article-illustrator` | Visual style design + image generation | `images/` |
+- **Added OpenClaw-specific documentation**
+  - `README_OPENCLAW.md`
+  - `OPENCLAW_EXECUTION_MAP.md`
+  - `OPENCLAW_ADAPTATION_PLAN.md`
 
 ---
 
-## 🔬 Humanizer Core Algorithm
+## 🎯 Current Code Shape
 
-The system forces breaks from LLM's predictive probability model through:
+### 1. Current agents included
 
-1. **Vocabulary Layer**: Remove AI高频填充词 like "in conclusion", "key point is", replace with action-oriented concrete words.
-2. **Syntax Layer**: Introduce sentence length variation (Burstiness) to break LLM's uniform sentence tendency.
-3. **Opinion Layer**: Require agents to propose controversial or unique perspectives based on materials.
-4. **Perception Layer**: Force inject five-sense descriptions (auditory, visual, tactile) to give text "on-site feeling."
+This branch currently contains **16 agent files**:
+
+- `article-illustrator`
+- `concretizer`
+- `edit-diff-learner`
+- `editor-review`
+- `empathy-designer`
+- `humanizer`
+- `memory-loader`
+- `outline-architect`
+- `pre-publish-review`
+- `research-expert`
+- `title-designer`
+- `topic-generator`
+- `topic-research`
+- `toutiao-reader-test`
+- `writing-clarifier`
+- `writing-executor`
+
+### 2. Current skills included
+
+This branch currently contains **3 core skills**:
+
+- `workflow-producer`
+- `style-modeler`
+- `web-article-extractor`
+
+### 3. Current scripts included
+
+- `scripts/auto_clean_hook.py`
+- `scripts/generate_clean.py`
+- `scripts/generate_image.ts`
+- `scripts/openclaw_stage12_runner.py`
 
 ---
 
-## ⚙️ Configuration & Quick Start
+## 🛠️ Writing Modes
 
-### Environment Dependencies
+The current branch supports three modes:
 
-- OpenClaw Framework
-- Python 3.10+
-- API Keys: MiniMax / DeepSeek / Zhipu GLM (optional)
+| Mode | Core Logic | Use Case |
+|:-----|:-----------|:---------|
+| **Lite Mode** | Clarify → Quick writing → Optional review | Short-form writing, essays, existing material |
+| **Pro / Collaborative Mode** | Memory load → Research → Structure → Writing → Review → Reader test → Humanize → Optional illustration → Clean export → Retrospective | Long-form, deep analysis, full workflow |
+| **Ideation Mode** | Topic generation → Topic validation → Enter collaborative mode | No topic yet, needs direction first |
 
-### Configuration (config.json)
+---
 
-```json
-{
-  "model": {
-    "provider": "minimax",
-    "model_id": "MiniMax-M2.1",
-    "api_key": "YOUR_API_KEY"
-  },
-  "image": {
-    "provider": "nano-banana",
-    "model": "nano-banana"
-  },
-  "search": {
-    "provider": "tavily",
-    "api_key": "YOUR_TAVILY_KEY"
-  }
-}
-```
+## 📐 Current Workflow Stages (Code-Aligned)
 
-### Supported Models
+The collaborative path in the current `workflow-producer` can be understood as:
 
-| Model | Provider ID | Recommended | Use Case |
-|:------|:-----------|:------------|:---------|
-| MiniMax M2.1/M2.5 | `minimax` | ⭐⭐⭐ | Best cost-performance |
-| DeepSeek | `deepseek` | ⭐⭐⭐ | Open source friendly |
-| Alibaba Qwen | `qwen` | ⭐⭐ | Stable |
-| Zhipu GLM | `glm` | ⭐⭐ | Chinese optimized |
-| Google Gemini | `gemini` | ⭐⭐ | Multimodal |
+- Stage 0: `memory-loader`
+- Stage 1: `writing-clarifier`
+- Stage 2: `research-expert`
+- Stage 3: `outline-architect`
+- Stage 4: `empathy-designer`
+- Stage 5: `concretizer`
+- Stage 5.5: `title-designer`
+- Stage 6: `writing-executor`
+- Stage 7: `editor-review`
+- Stage 8: `pre-publish-review`
+- Stage 9: `toutiao-reader-test`
+- Stage 10: `humanizer` (mandatory)
+- Stage 11: `article-illustrator` (optional)
+- Stage 12: generate `_clean.txt`
+- Stage 13: `edit-diff-learner`
+
+> Note: older docs may still say “12 stages”, but the current code shape already includes the extended Stage 0 and Stage 13 flow.
 
 ---
 
 ## 🚀 Current Usage (OpenClaw)
 
 ### Option 1: Use it as an OpenClaw writing workflow repository
-
-This is the recommended model for your current setup: treat this project as a writing workflow system running under OpenClaw, rather than depending on Claude Code runtime behavior.
 
 Recommended mental model:
 
@@ -126,23 +124,24 @@ Recommended mental model:
 
 2. **Stage agents generate artifacts**
    - each stage reads existing files from `articles/[project-name]/`
-   - produces the next stage output
+   - produces the next-stage output
    - persists results back to disk
 
 3. **Stage 12 runs explicitly in OpenClaw**
-   - recommended explicit command:
+
+Recommended command:
 
 ```bash
 python scripts/openclaw_stage12_runner.py --project [project-name]
 ```
 
-If you already know the final markdown file path, you can also run:
+If you already know the final markdown path, you can also run:
 
 ```bash
 python scripts/generate_clean.py articles/[project-name]/[final-file].md
 ```
 
-### Option 2: Read the OpenClaw-specific docs first
+### Option 2: Read OpenClaw-specific docs first
 
 For deeper integration or further adaptation, start with:
 
@@ -150,71 +149,41 @@ For deeper integration or further adaptation, start with:
 - `OPENCLAW_EXECUTION_MAP.md`
 - `OPENCLAW_ADAPTATION_PLAN.md`
 
-## 📖 Usage Examples
-
-### Lite Mode
-
-```
-User: Write a lightweight article about side income
-
-Agent:
-🎬 Please select writing mode:
-[A] Lite Mode - Quick output (short posts/essays)
-[B] Pro Mode - Deep writing (recommended)
-[C] Ideation Mode - Start from topic
-
-User: A
-
-→ Enter 4-stage quick flow
-```
-
-### Pro Mode
-
-```
-User: Write an article about 35-year-old career crisis
-
-Agent:
-🎬 Please select writing mode... (User selects B)
-
-→ Enter 12-stage closed loop:
-  Stage 1: Requirement → 01_theme.md
-  Stage 2: Research → 02_cases.md
-  ...
-  Stage 12: Clean output → [filename]_clean.txt
-```
-
 ---
 
-## 📂 Output Structure
+## 📂 Artifact Structure
 
-```
+The current workflow artifact convention is:
+
+```text
 articles/
 └── [project-name]/
-    ├── 01_theme.md              # Theme definition
-    ├── 02_cases.md             # Research materials
-    ├── 03_outline.md           # Article outline
-    ├── 04_empathy_map.md       # Empathy map
-    ├── 05_concrete_library.md   # Concrete library
-    ├── titles.md               # Candidate titles
-    ├── draft_v1.md            # First draft
-    ├── draft_v2.md            # Revised draft
-    ├── review_*.md             # Review records
-    ├── reader_test.md          # Reader simulation
-    ├── final.md                # Final draft
-    └── [name]_clean.txt       # Clean version
+    ├── 00_memory_packet.md       # auto-generated writing preference packet
+    ├── 01_theme.md               # theme definition
+    ├── 02_cases.md               # research materials
+    ├── 03_outline.md             # outline
+    ├── 04_empathy_map.md         # empathy map
+    ├── 05_concrete_library.md    # concrete detail library
+    ├── titles.md                 # candidate titles
+    ├── draft_v1.md               # first draft
+    ├── draft_v2.md ...           # later revisions
+    ├── review_*.md               # review artifacts
+    ├── reader_test.md            # reader simulation
+    ├── *_humanized.md / final.md # humanized / final version
+    ├── [name]_clean.txt          # clean export
+    └── 99_episode.md             # retrospective learning artifact
 ```
 
 ---
 
 ## 🔒 Core Rules
 
-1. **Mode First**: Any writing request must guide user to select mode first
-2. **Sub-Agent Driven**: Use sub-agent matrix for context isolation & specialization
-3. **Artifact Persistence**: Each stage output auto-persisted as Markdown
-4. **Progress Visualization**: Real-time display of current stage & completion
-5. **Key Gatekeepers**: Outline, title and other key nodes require user confirmation
-6. **No Early Exit**: Collaborative mode must complete all 12 stages
-7. **Clean Output**: Generate plain text without Markdown syntax
+1. **Mode selection comes first**
+2. **The workflow is file-driven**
+3. **Key nodes require confirmation**
+4. **Stage 10 humanization is mandatory**
+5. **Stage 12 must produce a clean version**
+6. **Stage 13 performs retrospective learning when meaningful diffs exist**
 
 ---
 
@@ -222,21 +191,7 @@ articles/
 
 MIT License - See [LICENSE](./LICENSE)
 
-## 🙏 Acknowledgments
+## 🙏 Credits
 
-- Original Project: [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
-- Inspiration: Wikipedia AI Cleanup Project
-er confirmation
-6. **No Early Exit**: Collaborative mode must complete all 12 stages
-7. **Clean Output**: Generate plain text without Markdown syntax
-
----
-
-## 📜 License
-
-MIT License - See [LICENSE](./LICENSE)
-
-## 🙏 Acknowledgments
-
-- Original Project: [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
+- Upstream project: [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
 - Inspiration: Wikipedia AI Cleanup Project

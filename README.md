@@ -1,73 +1,57 @@
-# Writing Agent - OpenClaw Branch
+# Writing Agent - OpenClaw 适配版
 
-> 一个已同步上游核心能力、并完成 OpenClaw 运行适配的智能写作系统分支。
->
-> This branch syncs core upstream capabilities while providing an OpenClaw-friendly execution path.
+> 基于 OpenClaw 的智能写作系统分支，已同步上游 `writing-agent v0.7.0` 核心能力，并补齐 OpenClaw 可运行适配。
+
+英文说明请看：[`README_EN.md`](./README_EN.md)
 
 ---
 
-## 快速入口 / Quick Entry
+## 当前功能形态
 
-### 中文用户
-- 详细说明：[`README_ZH.md`](./README_ZH.md)
+当前 `openclaw` 分支已经包含以下能力：
+
+- **16 个阶段代理（agents）**
+  - 包括 `memory-loader`、`edit-diff-learner`、`humanizer`、`article-illustrator` 等
+- **3 个核心 skills**
+  - `工作流导演`
+  - `风格建模`
+  - `公众号文章获取`
+- **记忆闭环**
+  - 启动前生成 `00_memory_packet.md`
+  - 完成后产出 `99_episode.md`
+- **Stage 12 纯净版导出**
+  - 支持 Claude Code Hook
+  - 也支持 OpenClaw 显式执行 `scripts/openclaw_stage12_runner.py`
+- **OpenClaw 兼容修复**
+  - 修复部分路径硬编码问题
+  - 新增 OpenClaw 执行映射与适配说明
+
+---
+
+## 推荐阅读
+
+### 中文
+- 详细功能与使用方法：[`README_ZH.md`](./README_ZH.md)
 - OpenClaw 使用说明：[`README_OPENCLAW.md`](./README_OPENCLAW.md)
 - 执行映射：[`OPENCLAW_EXECUTION_MAP.md`](./OPENCLAW_EXECUTION_MAP.md)
 - 适配设计：[`OPENCLAW_ADAPTATION_PLAN.md`](./OPENCLAW_ADAPTATION_PLAN.md)
 
 ### English
 - Detailed guide: [`README_EN.md`](./README_EN.md)
-- OpenClaw guide: [`README_OPENCLAW.md`](./README_OPENCLAW.md)
-- Execution map: [`OPENCLAW_EXECUTION_MAP.md`](./OPENCLAW_EXECUTION_MAP.md)
-- Adaptation plan: [`OPENCLAW_ADAPTATION_PLAN.md`](./OPENCLAW_ADAPTATION_PLAN.md)
 
 ---
 
-## 本分支当前状态 / Branch Status
+## OpenClaw 下的关键用法
 
-本分支已完成以下工作：
+### Stage 12：显式导出 clean 版本
 
-- 同步上游 `writing-agent v0.7.0` 核心能力
-- 引入记忆闭环：`memory-loader` / `edit-diff-learner`
-- 引入 `00_memory_packet.md` / `99_episode.md` 工作流产物
-- 为 OpenClaw 增加显式 Stage 12 导出入口：
-  - `scripts/openclaw_stage12_runner.py`
-- 修复部分宿主环境路径兼容问题
-- 增补中英文更新说明与使用方法
-
-This branch already includes:
-
-- synced core upstream `writing-agent v0.7.0` capabilities
-- memory-loop components: `memory-loader` / `edit-diff-learner`
-- workflow artifacts: `00_memory_packet.md` / `99_episode.md`
-- explicit OpenClaw Stage 12 runner:
-  - `scripts/openclaw_stage12_runner.py`
-- host-environment path compatibility fixes
-- bilingual update notes and usage guides
-
----
-
-## 推荐阅读顺序 / Recommended Reading Order
-
-### 如果你想直接用
-1. [`README_ZH.md`](./README_ZH.md) 或 [`README_EN.md`](./README_EN.md)
-2. [`README_OPENCLAW.md`](./README_OPENCLAW.md)
-
-### 如果你想继续开发或适配
-1. [`README_OPENCLAW.md`](./README_OPENCLAW.md)
-2. [`OPENCLAW_EXECUTION_MAP.md`](./OPENCLAW_EXECUTION_MAP.md)
-3. [`OPENCLAW_ADAPTATION_PLAN.md`](./OPENCLAW_ADAPTATION_PLAN.md)
-
----
-
-## Stage 12（OpenClaw）
-
-在 OpenClaw 中，推荐显式执行 clean 导出，而不是依赖 Claude Code Hook：
+推荐命令：
 
 ```bash
 python scripts/openclaw_stage12_runner.py --project [项目名]
 ```
 
-如果你已经知道定稿文件路径，也可以直接运行：
+如果你已知定稿文件路径，也可以直接执行：
 
 ```bash
 python scripts/generate_clean.py articles/[项目名]/[定稿文件].md
@@ -75,7 +59,15 @@ python scripts/generate_clean.py articles/[项目名]/[定稿文件].md
 
 ---
 
-## 致谢 / Credits
+## 仓库定位
 
-- Upstream project: [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
-- Fork / OpenClaw branch: [one-box-u/writing-agent](https://github.com/one-box-u/writing-agent)
+这个分支不是简单照搬 Claude Code 用法，而是：
+
+**在保留上游工作流协议的前提下，把它整理成适合 OpenClaw 编排执行的版本。**
+
+---
+
+## 致谢
+
+- Upstream: [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
+- Fork: [one-box-u/writing-agent](https://github.com/one-box-u/writing-agent)
