@@ -43,7 +43,7 @@ await javascript_tool({
 
 // 4. 使用 Readability 提取（推荐）
 const readabilityScript = await fs.readFile(
-  '~/.claude/skills/web-article-extractor/scripts/readability_extractor.js',
+  '.claude/skills/公众号文章获取/scripts/readability_extractor.js',
   'utf8'
 );
 
@@ -220,6 +220,20 @@ A: 使用最新版本的 Chrome DevTools MCP，设置正确的启动参数，模
 - **Chrome DevTools MCP** - 浏览器控制和页面操作
 - **Readability.js v0.6.0** - Mozilla 文章提取算法
 - **自定义提取器** - 特殊网站支持（微信、知乎等）
+
+## 版本更新
+
+### v2.0.0 (2025-12-28)
+- 升级 Readability.js 至 v0.6.0
+- 新增 isProbablyReaderable 快速预检测
+- 增强 SEO 元数据提取
+- 完善文档结构
+
+### v1.0.0 (2025-11-15)
+- 初始版本
+- 集成 Mozilla Readability.js
+- 支持微信公众号
+自定义提取器** - 特殊网站支持（微信、知乎等）
 
 ## 版本更新
 

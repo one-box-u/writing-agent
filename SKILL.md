@@ -1,0 +1,179 @@
+# Writing Agent - OpenClaw Skill Definition
+
+## 概述
+
+> 基于 OpenClaw 框架的智能写作系统，通过"反 AI 味"技术生成具有人类温度的高质量内容。
+
+## 触发关键词
+
+- 帮我写
+- 写一篇
+- 创作文章
+- 起草文章
+
+---
+
+## 三种创作模式
+
+### 模式选择菜单
+
+**无论用户说什么写作请求，第一步必须输出模式选择：**
+
+```
+🎬 请选择创作模式：
+
+【A】轻量模式 (Lite)
+   适用：短文（≤1000字）、随笔、已有素材
+   流程：需求澄清 → 写作 → 简单审稿
+
+【B】专业协作模式 (Pro) ⭐推荐
+   适用：长文（>1500字）、深度分析、数据支撑
+   流程：12阶段完整SOP
+
+【C】灵感激发模式 (Ideation)
+   适用：不知道写什么，需要选题建议
+   流程：选题生成 → 调研 → 确认后进入Pro模式
+```
+
+---
+
+## 模式A：轻量模式 (Lite)
+
+### 适用场景
+- 短文（≤1000字）
+- 随笔、感悟类
+- 已有完整素材
+
+### 流程
+```
+Step 1: 需求澄清
+  └→ writing-clarifier → 01_theme.md
+
+Step 2: 用户确认
+  └→ 展示澄清结果
+
+Step 3: 写作执行
+  └→ writing-executor → draft.md
+
+Step 4: 简单审稿（可选）
+  └→ editor-review
+
+Step 5: 终态处理
+  └→ 生成纯净版 txt
+```
+
+---
+
+## 模式B：专业协作模式 (Pro) ⭐
+
+### 适用场景
+- 长文（>1500字）
+- 深度分析
+- 专业内容
+
+### 完整流程（12阶段）
+
+| Stage | 子代理 | 产物 | 内容 |
+|:-----:|:------|:-----|:-----|
+| 1 | writing-clarifier | 01_theme.md | 主题定义、目标读者、核心观点 |
+| 2 | research-expert | 02_cases.md | 行业数据、案例分析 |
+| 3 | outline-architect | 03_outline.md | 文章结构、章节规划 |
+| 4 | empathy-designer | 04_empathy_map.md | 读者痛点、共鸣点 |
+| 5 | concretizer | 05_concrete_library.md | 具体案例、细节描写 |
+| 5.5 | title-designer | titles.md | 候选标题x5 |
+| 6 | writing-executor | draft_v1.md | 初稿 |
+| 7 | editor-review | review_*.md | 主编审稿（可多轮） |
+| 8 | pre-publish-review | publish_review.md | 发布前评审 |
+| 9 | toutiao-reader-test | reader_test.md | 读者模拟 |
+| 10 | humanizer | final.md | 去AI味 |
+| 11 | article-illustrator | images/ | 配图（可选） |
+| 12 | - | *_clean.txt | 纯净版输出 |
+
+---
+
+## 模式C：灵感激发模式 (Ideation)
+
+### 适用场景
+- 不知道写什么
+- 缺乏灵感
+- 需要热点选题
+
+### 流程
+```
+Step 1: 询问领域
+  └→ 了解用户方向（科技/职场/情感...）
+
+Step 2: 选题生成
+  └→ topic-generator → 候选选题x5-10
+
+Step 3: 用户选择
+  └→ 展示选题，确认
+
+Step 4: 选题调研
+  └→ topic-research → 验证报告
+
+Step 5: 进入Pro模式
+  └→ 自动进入Stage 1
+```
+
+---
+
+## 子代理调用规范
+
+### 调用语法
+```
+使用 [subagent-name] 子代理来 [任务描述]。
+参数：xxx
+```
+
+### 可用子代理列表
+
+| 子代理 | 职责 | 产出文件 |
+|:------|:-----|:--------|
+| writing-clarifier | 需求澄清 | 01_theme.md |
+| topic-generator | 选题生成 | topics.md |
+| topic-research | 选题调研 | topic_report.md |
+| research-expert | 素材调研 | 02_cases.md |
+| outline-architect | 大纲设计 | 03_outline.md |
+| empathy-designer | 共情设计 | 04_empathy_map.md |
+| concretizer | 具象化 | 05_concrete_library.md |
+| title-designer | 标题设计 | titles.md |
+| writing-executor | 写作执行 | draft_*.md |
+| editor-review | 主编审稿 | review_*.md |
+| pre-publish-review | 发布前评审 | publish_review.md |
+| toutiao-reader-test | 读者模拟 | reader_test.md |
+| humanizer | 去AI味 | final.md |
+| article-illustrator | 配图 | images/ |
+
+---
+
+## 进度展示
+
+每完成一个 Stage，输出：
+
+```
+══════════════════════════════════════════
+✅ Stage X 完成：[阶段名称]
+══════════════════════════════════════════
+产物：articles/[项目名]/[文件名]
+进度：[X/12] ████████░░ 80%
+```
+
+---
+
+## 核心规则
+
+1. **必须先问模式** - 禁止跳过模式选择
+2. **禁止直接写作** - 必须先澄清需求
+3. **使用子代理** - 通过子代理执行任务
+4. **产物落盘** - 每阶段保存到文件
+5. **展示进度** - 用户知道当前阶段
+6. **关键确认** - 大纲/标题需用户确认
+7. **严禁早退** - Pro模式走完12阶段
+8. **生成纯净版** - 最终输出无Markdown的txt
+
+---
+
+## 版本
+
+- v0.6.1 (2026-02-22): OpenClaw适配版 - 专业文档重构

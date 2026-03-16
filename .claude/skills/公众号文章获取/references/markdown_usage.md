@@ -28,7 +28,7 @@ Claude 会自动：
 // 在浏览器 DevTools 中运行
 const result = await mcp__chrome_devtools__evaluate_script({
   function: await fs.readFile(
-    '~/.claude/skills/web-article-extractor/scripts/markdown_converter.js',
+    '.claude/skills/公众号文章获取/scripts/markdown_converter.js',
     'utf8'
   )
 });
@@ -48,7 +48,7 @@ await fs.writeFile('/tmp/article-data.json', JSON.stringify(articleData, null, 2
 
 ```bash
 # 使用 Node.js 脚本下载图片并保存
-node ~/.claude/skills/web-article-extractor/scripts/save_with_images.js \
+node .claude/skills/公众号文章获取/scripts/save_with_images.js \
   /tmp/article-data.json \
   ./output
 ```
@@ -69,7 +69,7 @@ await new Promise(resolve => setTimeout(resolve, 3000));
 
 // 3. 运行 Markdown 转换脚本
 const markdownScript = await fs.readFile(
-  '~/.claude/skills/web-article-extractor/scripts/markdown_converter.js',
+  '.claude/skills/公众号文章获取/scripts/markdown_converter.js',
   'utf8'
 );
 

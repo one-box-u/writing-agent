@@ -37,7 +37,7 @@ async function extractWithReadability(url) {
 
   // 4. 读取并执行 Readability 提取脚本
   const readabilityScript = await fs.readFile(
-    '~/.claude/skills/web-article-extractor/scripts/readability_extractor.js',
+    '.claude/skills/公众号文章获取/scripts/readability_extractor.js',
     'utf8'
   );
 

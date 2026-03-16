@@ -1,0 +1,16 @@
+{
+  "model": {
+    "provider": "auto",
+    "model_id": "",
+    "api_key": "YOUR_API_KEY",
+    "api_base": "",
+    "fallback": "minimax/MiniMax-M2.1"
+  },
+  "image": {
+    "provider": "nano-banana",
+    "model": "nano-banana"
+  },
+  "search": {
+    "provider": "tavily"
+  }
+}
