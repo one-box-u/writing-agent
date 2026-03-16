@@ -111,6 +111,45 @@ The system forces breaks from LLM's predictive probability model through:
 
 ---
 
+## 🚀 Current Usage (OpenClaw)
+
+### Option 1: Use it as an OpenClaw writing workflow repository
+
+This is the recommended model for your current setup: treat this project as a writing workflow system running under OpenClaw, rather than depending on Claude Code runtime behavior.
+
+Recommended mental model:
+
+1. **The main agent orchestrates**
+   - receives the user request
+   - asks the user to choose a mode first
+   - advances the workflow stage by stage
+
+2. **Stage agents generate artifacts**
+   - each stage reads existing files from `articles/[project-name]/`
+   - produces the next stage output
+   - persists results back to disk
+
+3. **Stage 12 runs explicitly in OpenClaw**
+   - recommended explicit command:
+
+```bash
+python scripts/openclaw_stage12_runner.py --project [project-name]
+```
+
+If you already know the final markdown file path, you can also run:
+
+```bash
+python scripts/generate_clean.py articles/[project-name]/[final-file].md
+```
+
+### Option 2: Read the OpenClaw-specific docs first
+
+For deeper integration or further adaptation, start with:
+
+- `README_OPENCLAW.md`
+- `OPENCLAW_EXECUTION_MAP.md`
+- `OPENCLAW_ADAPTATION_PLAN.md`
+
 ## 📖 Usage Examples
 
 ### Lite Mode
@@ -174,6 +213,20 @@ articles/
 3. **Artifact Persistence**: Each stage output auto-persisted as Markdown
 4. **Progress Visualization**: Real-time display of current stage & completion
 5. **Key Gatekeepers**: Outline, title and other key nodes require user confirmation
+6. **No Early Exit**: Collaborative mode must complete all 12 stages
+7. **Clean Output**: Generate plain text without Markdown syntax
+
+---
+
+## 📜 License
+
+MIT License - See [LICENSE](./LICENSE)
+
+## 🙏 Acknowledgments
+
+- Original Project: [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
+- Inspiration: Wikipedia AI Cleanup Project
+er confirmation
 6. **No Early Exit**: Collaborative mode must complete all 12 stages
 7. **Clean Output**: Generate plain text without Markdown syntax
 

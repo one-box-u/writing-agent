@@ -111,6 +111,45 @@ Humanizer去AI → 配图工坊 → 纯净版输出
 
 ---
 
+## 🚀 当前使用方法（OpenClaw）
+
+### 方式一：作为 OpenClaw 中的写作工作流仓库使用
+
+适合你当前的主目标：把它作为 OpenClaw 下的写作系统使用，而不是依赖 Claude Code 原生运行时。
+
+推荐理解方式：
+
+1. **主代理负责调度**
+   - 接收用户写作需求
+   - 先要求选择模式（轻量 / 协作 / 选题）
+   - 按阶段推进
+
+2. **阶段代理负责产出文件**
+   - 每个阶段读取 `articles/[项目名]/` 下已有文件
+   - 生成对应阶段产物
+   - 把结果继续落盘
+
+3. **Stage 12 显式执行 clean 导出**
+   - 在 OpenClaw 中，推荐显式执行：
+
+```bash
+python scripts/openclaw_stage12_runner.py --project [项目名]
+```
+
+如果你已经知道定稿文件路径，也可以直接：
+
+```bash
+python scripts/generate_clean.py articles/[项目名]/[定稿文件名].md
+```
+
+### 方式二：查看 OpenClaw 专用文档
+
+如果你要进一步接入或改造，请优先看这三份：
+
+- `README_OPENCLAW.md`：OpenClaw 视角总说明
+- `OPENCLAW_EXECUTION_MAP.md`：上游概念到 OpenClaw 的执行映射
+- `OPENCLAW_ADAPTATION_PLAN.md`：这次升级与适配的设计思路
+
 ## 📖 使用示例
 
 ### 轻量模式
@@ -186,4 +225,6 @@ MIT License - See [LICENSE](./LICENSE)
 ## 🙏 致谢
 
 - 原项目：[dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
+- 灵感来源：Wikipedia AI Cleanup Project
+�项目：[dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
 - 灵感来源：Wikipedia AI Cleanup Project
