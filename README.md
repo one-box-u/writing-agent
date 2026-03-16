@@ -1,70 +1,81 @@
-# 写作 Agent - OpenClaw 适配版
+# Writing Agent - OpenClaw Branch
 
-> 🚀 一个基于 OpenClaw 的"反AI味"写作系统，让AI写出的文章像人写的一样自然。
+> 一个已同步上游核心能力、并完成 OpenClaw 运行适配的智能写作系统分支。
+>
+> This branch syncs core upstream capabilities while providing an OpenClaw-friendly execution path.
 
-## 三种写作模式
+---
 
-| 模式 | 命令示例 | 适用场景 |
-|------|----------|----------|
-| **轻量模式** | 帮我用轻量模式写一篇xxx | 短文（≤1000字）、随笔、已有素材 |
-| **协作模式** | 帮我写一篇xxx（默认） | 长文（>1500字）、深度分析、数据支撑 |
-| **从选题开始** | 帮我写一篇但我不知道写什么 | 无灵感，需要AI生成选题 |
+## 快速入口 / Quick Entry
 
-## 详细文档
+### 中文用户
+- 详细说明：[`README_ZH.md`](./README_ZH.md)
+- OpenClaw 使用说明：[`README_OPENCLAW.md`](./README_OPENCLAW.md)
+- 执行映射：[`OPENCLAW_EXECUTION_MAP.md`](./OPENCLAW_EXECUTION_MAP.md)
+- 适配设计：[`OPENCLAW_ADAPTATION_PLAN.md`](./OPENCLAW_ADAPTATION_PLAN.md)
 
-- [中文详细文档](./README_ZH.md)
-- [English Documentation](./README_EN.md)
+### English
+- Detailed guide: [`README_EN.md`](./README_EN.md)
+- OpenClaw guide: [`README_OPENCLAW.md`](./README_OPENCLAW.md)
+- Execution map: [`OPENCLAW_EXECUTION_MAP.md`](./OPENCLAW_EXECUTION_MAP.md)
+- Adaptation plan: [`OPENCLAW_ADAPTATION_PLAN.md`](./OPENCLAW_ADAPTATION_PLAN.md)
 
-## 功能特点
+---
 
-- 🤖 **Humanizer**: 识别并修复24种AI写作痕迹
-- 🎨 **配图生成**: 支持多种图片生成服务
-- 📺 **读者模拟**: 模拟真实用户的心理反应
-- ✍️ **完整工作流**: 14阶段深度创作模式
+## 本分支当前状态 / Branch Status
 
-## 快速开始
+本分支已完成以下工作：
+
+- 同步上游 `writing-agent v0.7.0` 核心能力
+- 引入记忆闭环：`memory-loader` / `edit-diff-learner`
+- 引入 `00_memory_packet.md` / `99_episode.md` 工作流产物
+- 为 OpenClaw 增加显式 Stage 12 导出入口：
+  - `scripts/openclaw_stage12_runner.py`
+- 修复部分宿主环境路径兼容问题
+- 增补中英文更新说明与使用方法
+
+This branch already includes:
+
+- synced core upstream `writing-agent v0.7.0` capabilities
+- memory-loop components: `memory-loader` / `edit-diff-learner`
+- workflow artifacts: `00_memory_packet.md` / `99_episode.md`
+- explicit OpenClaw Stage 12 runner:
+  - `scripts/openclaw_stage12_runner.py`
+- host-environment path compatibility fixes
+- bilingual update notes and usage guides
+
+---
+
+## 推荐阅读顺序 / Recommended Reading Order
+
+### 如果你想直接用
+1. [`README_ZH.md`](./README_ZH.md) 或 [`README_EN.md`](./README_EN.md)
+2. [`README_OPENCLAW.md`](./README_OPENCLAW.md)
+
+### 如果你想继续开发或适配
+1. [`README_OPENCLAW.md`](./README_OPENCLAW.md)
+2. [`OPENCLAW_EXECUTION_MAP.md`](./OPENCLAW_EXECUTION_MAP.md)
+3. [`OPENCLAW_ADAPTATION_PLAN.md`](./OPENCLAW_ADAPTATION_PLAN.md)
+
+---
+
+## Stage 12（OpenClaw）
+
+在 OpenClaw 中，推荐显式执行 clean 导出，而不是依赖 Claude Code Hook：
 
 ```bash
-# 1. 克隆项目
-git clone https://github.com/one-box-u/writing-agent.git
-cd writing-agent
-
-# 2. 复制配置模板
-cp config.json.template config.json
-
-# 3. 填写API配置
-# 编辑 config.json 填入你的 API Key
+python scripts/openclaw_stage12_runner.py --project [项目名]
 ```
 
-## 使用方式
+如果你已经知道定稿文件路径，也可以直接运行：
 
-```
-# 默认协作模式
-帮我写一篇关于[主题]的文章
-
-# 轻量模式
-帮我用轻量模式写一篇关于[主题]的文章
-
-# 从选题开始
-帮我写一篇但我不知道写什么
+```bash
+python scripts/generate_clean.py articles/[项目名]/[定稿文件].md
 ```
 
-## 配置说明
+---
 
-```json
-{
-  "model": {
-    "provider": "minimax",
-    "model_id": "MiniMax-M2.1",
-    "api_key": "YOUR_API_KEY"
-  }
-}
-```
+## 致谢 / Credits
 
-## 开源许可
-
-MIT License
-
-## 致谢
-
-原项目: [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
+- Upstream project: [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
+- Fork / OpenClaw branch: [one-box-u/writing-agent](https://github.com/one-box-u/writing-agent)
