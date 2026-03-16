@@ -11,7 +11,22 @@
  */
 
 (async function() {
-  const SKILL_PATH = '/Users/pan/.claude/skills/web-article-extractor/scripts';
+  const resolveSkillPath = () => {
+    // 优先使用外部注入路径，便于 OpenClaw / 不同宿主环境复用
+    if (typeof globalThis !== 'undefined' && globalThis.__WEB_ARTICLE_EXTRACTOR_SKILL_PATH__) {
+      return globalThis.__WEB_ARTICLE_EXTRACTOR_SKILL_PATH__;
+    }
+
+    // Node 环境：优先按当前工作目录中的项目相对路径解析
+    if (typeof process !== 'undefined' && process.cwd) {
+      return process.cwd() + '/.claude/skills/公众号文章获取/scripts';
+    }
+
+    // 最后兜底：保留原项目级相对位置的语义，避免写死作者本机绝对路径
+    return './.claude/skills/公众号文章获取/scripts';
+  };
+
+  const SKILL_PATH = resolveSkillPath();
 
   /**
    * Load Readability extractor script

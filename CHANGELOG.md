@@ -5,6 +5,43 @@ All notable changes to 写稿Agent will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-03-15
+
+### Added
+- ✨ **系统自进化双轴架构**：引入全新的采样与编译闭环，使系统具备跨项目的长期记忆能力：
+  - **Stage 13 自动复盘 (`edit-diff-learner`)**：在每次定稿后自动对撞 AI 初稿与最终用户修改稿，按 15 维风格 DSL 归因提炼写作经验。
+  - **Stage 0 记忆装载 (`memory-loader`)**：每次启动新项目前，自动扫描历史复盘，将高频经验编译提纯为极简的记忆包，注入当前上下文。
+- ⚙️ **自动化物理排版 Hook**：引入 Claude Code Hooks 机制（`auto_clean_hook.py` 和 `generate_clean.py`），在全流程结束时脱离 LLM 进行正则级清洗，100% 稳定输出无缝适配微信公众号的排版纯净版 (`_clean.txt`)。
+
+### Changed
+- 🔄 **工作流导演升级为 14 阶段**：前后分别扩建了 记忆装载 和 自动复盘 环节。将可调度的 Subagent 扩容至 16 个。
+- 🧠 **代理上下文注入**：深度改造主力写手代理（`writing-executor`、`humanizer`、`title-designer`、`outline-architect`），强制在执行前加载历史经验包，实现精准的偏好纠偏。
+- 🔧 **项目级配置分离**：新建 `.claude/settings.json` 以共享 Hooks 配置，从个人授权级别的 `.local.json` 中剥离。
+
+## [0.6.4] - 2026-03-12
+
+### Changed
+- 🔧 **技能结构优化**：应用 Skill Creator 的 Progressive Disclosure 原则，大幅提升技能加载效率：
+  - **公众号文章获取**：精简 SKILL.md 从 1238 行至 ~200 行（减少 85% Token 使用），创建 4 个 reference 文件（readability-guide、config-options、best-practices、platform-specific）
+  - **工作流导演**：新增"Agent 工具调用示例"章节，提供 3 个完整的 Subagent 调用示例，提升可执行性
+  - **风格建模**：创建 `references/15-dimensions.md` 详细文档，精简主文档至 ~150 行，详细内容按需加载
+
+### Fixed
+- 🐛 **修复工作流 Stage 10 执行逻辑**：Stage 10 (去AI味) 从可选改为强制执行，确保所有文章都经过 Humanizer 处理后才进入 Stage 11 (配图可选) 和 Stage 12 (终极收尾)
+
+### Technical
+- 所有技能现在符合 Progressive Disclosure 最佳实践：核心流程保留在 SKILL.md（<200 行），详细说明拆分到 references 目录
+- 技能触发时的 Token 消耗显著降低，提升响应速度和上下文利用率
+
+## [0.6.3] - 2026-03-01
+
+### Changed
+- ✨ **Humanizer (去AI味专家) 进阶架构升级 v1.2.0**：深度集成 `Humanizer-zh` 核心规则引擎，全面增强文本净化能力：
+  - **新增 50分 质量强制自评系统**：要求输出前进行五维打分（直接性、节奏感、信任度、真实性、精炼度），低于 40 分强制重写。
+  - **引入致命黑名单拦截**：强化高发 AI 词汇（如“此外”、“至关重要”、“织锦”等）的硬性过滤。
+  - **新增 Quick Check 快速排雷自检**：在执行前硬性要求打破“三段式”、“等长句”及排比依赖。
+  - **增强“注入灵魂”指令**：明确要求增加第一人称反应内心戏，允许真实视角的混乱发散，用体感细节替代抽象评价。
+
 ## [0.6.2] - 2026-02-21
 
 ### Changed

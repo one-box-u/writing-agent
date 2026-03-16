@@ -261,7 +261,7 @@ async function extractWithFallback(url) {
   // 1. 尝试 Readability
   try {
     const readabilityScript = await fs.readFile(
-      '~/.claude/skills/web-article-extractor/scripts/readability_extractor.js',
+      '.claude/skills/公众号文章获取/scripts/readability_extractor.js',
       'utf8'
     );
 
@@ -284,7 +284,7 @@ async function extractWithFallback(url) {
   // 2. 降级到简化算法
   try {
     const simpleScript = await fs.readFile(
-      '~/.claude/skills/web-article-extractor/scripts/extract_article.js',
+      '.claude/skills/公众号文章获取/scripts/extract_article.js',
       'utf8'
     );
 
@@ -369,7 +369,7 @@ async function debugExtraction(url) {
 
   console.log('🔧 执行 Readability...');
   const readabilityScript = await fs.readFile(
-    '~/.claude/skills/web-article-extractor/scripts/readability_extractor.js',
+    '.claude/skills/公众号文章获取/scripts/readability_extractor.js',
     'utf8'
   );
 

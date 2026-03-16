@@ -62,10 +62,11 @@ description: |
 项目名称：35岁职业危机
 ```
 
-### 可用 Subagent（12个）
+### 可用 Subagent（16个）
 
 | Subagent | 职责 |
 |----------|------|
+| `memory-loader` | 记忆装载（Stage 0） |
 | `topic-generator` | 选题生成 |
 | `topic-research` | 选题调研 |
 | `writing-clarifier` | 澄清需求 |
@@ -80,6 +81,48 @@ description: |
 | `toutiao-reader-test` | 读者模拟 |
 | `humanizer` | 去AI味专家 |
 | `article-illustrator` | 文章配图师 |
+| `edit-diff-learner` | 写作复盘学习器 |
+
+### Agent 工具调用示例
+
+**重要**：必须使用 Agent 工具来调用 Subagent，而不是仅仅文字描述。
+
+#### 示例 1：调用 writing-clarifier（澄清需求）
+
+当用户选择模式后，使用以下方式调用 Subagent：
+
+```
+使用 Agent 工具，参数如下：
+- description: "澄清写作需求"
+- prompt: "使用 writing-clarifier 子代理来澄清写作需求。\n用户请求：帮我写一篇关于35岁职业危机的文章\n项目名称：35岁职业危机"
+- subagent_type: "writing-clarifier"
+```
+
+#### 示例 2：调用 research-expert（调研素材）
+
+```
+使用 Agent 工具，参数如下：
+- description: "调研素材"
+- prompt: "使用 research-expert 子代理来调研素材。\n项目名称：35岁职业危机\n请先读取 articles/35岁职业危机/01_theme.md 获取调研方向。"
+- subagent_type: "research-expert"
+```
+
+#### 示例 3：调用 writing-executor（写作执行）
+
+```
+使用 Agent 工具，参数如下：
+- description: "执行写作"
+- prompt: "使用 writing-executor 子代理来执行写作。\n项目名称：35岁职业危机\n标题：35岁，你的职场护城河在哪里？\n请先读取 articles/35岁职业危机/ 下的所有准备文件。"
+- subagent_type: "writing-executor"
+```
+
+#### 关键要点
+
+1. **必须使用 Agent 工具**：不能只是文字描述"使用 xxx 子代理"
+2. **description 参数**：简短描述任务（3-5个字）
+3. **prompt 参数**：包含完整的任务描述和必要参数
+4. **subagent_type 参数**：指定要调用的 Subagent 名称
+5. **提供上下文**：在 prompt 中说明需要读取哪些文件
 
 ---
 
@@ -110,6 +153,8 @@ description: |
 ```
 用户选择 B
     ↓
+Stage 0: 使用 memory-loader 子代理 → 00_memory_packet.md（装载历史写作经验）
+    ↓
 Stage 1: 使用 writing-clarifier 子代理 → 01_theme.md
     ↓
 Stage 2: 使用 research-expert 子代理 → 02_cases.md
@@ -130,13 +175,15 @@ Stage 8: 使用 pre-publish-review 子代理 → 评审报告
     ↓
 Stage 9: 使用 toutiao-reader-test 子代理 → 读者测试
     ↓
-    (注意：Stage 9 结束后严禁结束任务，必须进入 Stage 10)
+    (自动进入，无需确认)
     ↓
-Stage 10: 🏁 最终询问 → 是否需要 humanizer 去AI味？
+Stage 10: 🤖 强制执行 → 使用 humanizer 子代理去AI味
     ↓
-Stage 11: 🎨 最终增强 → 是否需要配图？
+Stage 11: 🎨 询问用户 → 是否需要配图？
     ↓
-Stage 12: 📤 终局必定触发 → 为用户生成无空行、无符号的纯净排版 .txt 文件
+Stage 12: 📤 终局必定触发 → 纯净排版 .txt 文件（由 Hook 自动生成）
+    ↓
+Stage 13: 🧠 自动复盘 → 使用 edit-diff-learner 对比初稿与定稿，提炼写作经验
 ```
 
 ---
@@ -179,26 +226,26 @@ Stage 12: 📤 终局必定触发 → 为用户生成无空行、无符号的纯
 继续下一阶段？(是/调整/跳过)
 ```
 
-## Stage 10: 最终去AI味检查
+## Stage 10: 🤖 强制去AI味处理（Humanizer）
 
-Stage 9 (读者测试) 结束后，**严禁直接结束任务**。你**必须**主动发起 Stage 10：
+Stage 9 (读者测试) 结束后，**自动进入 Stage 10**，无需用户确认。
+
+你必须主动说明并立即执行：
 
 ```
-🏁 初稿结构和读者测试均已通过！
+✅ Stage 9 读者测试已完成！
 
-文章目前状态：[文件名]
+📝 现在自动进入 Stage 10：去AI味处理
 
-🤔 但这还没完！接下来进入文章的【精加工】阶段：
-最后确认：需要我对文章进行一次强力的「去AI味」处理吗？
-我是 Humanizer 专家，我会：
+我将使用 Humanizer 专家对文章进行深度优化：
 1. 删除所有空洞的形容词（如"至关重要"）
 2. 打破公式化的句子结构
 3. 注入更像真人的语气和观点
 
-请回复：
-Y - 是，请进行 Humanizer 处理（推荐）
-N - 否，保持原样结束任务
+正在处理...
 ```
+
+然后立即调用 humanizer 子代理，无需等待用户确认。
 
 ## Stage 11: 🎨 配图工坊 (Article Illustrator)
 
@@ -220,17 +267,45 @@ N - 否，纯文字即可
 
 ## Stage 12: 📤 终极收尾动作（生成排版纯净版）
 
-**无论工作流在哪个阶段（Stage 9/10/11任一节点）宣布最终结束，在你向用户道别并展示大结局之前，你（工作流导演）必须亲自完成最后一步：**
+**Claude Code 环境**：纯净版 `_clean.txt`` 通常由 Hook 脚本 (`scripts/auto_clean_hook.py`) 在 Stage 10/11 的 Subagent 结束时自动生成。
 
-基于文章的最终 Markdown 稿件，在同目录下生成一份名为 `[文章名]_clean.txt` 的纯文本文件。
+**OpenClaw 环境**：不要依赖 Hook 黑盒，推荐显式执行 Stage 12：
+```bash
+python scripts/openclaw_stage12_runner.py --project [项目名]
+```
 
-**纯净排版处理规则（极其重要，这是为了用户方便复制到微信排版使用）：**
-1. **段落间严禁有空行**：将原 Markdown 中的双换行符（`\n\n`）替换为单换行符（`\n`），使得文字段落之间紧密排布。
-2. **剔除所有 Markdown 语法**：加粗 `**`、引用 `>`、标题 `#`、无序列表 `-` 等符号全部删去。
-3. **剔除所有图片标记**：将 `![...](...)` 图片引用行全部删除（纯文本版不需要图片标记）。
-4. **剔除写作备注等元数据**：文章末尾的“写作备注”、“修改记录”、“打分表”、“效果预期”等所有非正文内容，**绝不能**包含在 txt 中。
+如果你已经明确知道定稿文件名，也可以直接调用：
+```bash
+python scripts/generate_clean.py articles/[项目名]/[定稿文件名].md
+```
 
-完成 `_clean.txt` 文件生成后，再输出真正的“工作流全部完成”横幅，并提醒用户可以直接去复制该 txt 发布。
+## Stage 13: 🧠 写作复盘与经验提炼
+
+Stage 12 完成后（纯净版已生成），**自动调用写作复盘学习器**。
+
+**前提条件**：项目目录中至少存在 `draft_v1.md` 和另一个更新版本的定稿文件。如果初稿即定稿（用户没做过任何修改），则跳过。
+
+```
+使用 edit-diff-learner 子代理来复盘本次写作。
+项目名称：[项目名]
+```
+
+复盘完成后输出：
+```
+═══════════════════════════════════════════════
+🧠 Stage 13 完成：写作复盘与经验提炼
+═══════════════════════════════════════════════
+
+【产物】：articles/[项目名]/99_episode.md
+【提取规则数】：X 条
+【核心发现】：[一句话概括]
+
+📋 进度：[13/13] █████████████ 100%
+
+✅ 全部流程完成！
+📄 纯净版：articles/[项目名]/[文件名]_clean.txt（可直接复制到微信公众号发布）
+🧠 复盘报告：articles/[项目名]/99_episode.md（本次写作的经验教训）
+```
 
 ---
 
@@ -242,10 +317,12 @@ N - 否，纯文字即可
 4. **每阶段产物落盘**（保存到 articles/[项目名]/）
 5. **展示进度**
 6. **关键节点用户确认**（大纲、标题、配图）
-7. **🚨 严禁早退**：Stage 9 完成后，绝对禁止擅自输出"工作流回顾/总结"并结束任务。必须强制推送 Stage 10/11 这两个后期阶段供用户选择。
-8. **📤 必须生成纯净版**：只要整个流程彻底结束（进入 Stage 12），必须生成 `_clean.txt` 作为工作流收官的最后一步。
+7. **🚨 严禁早退 + Stage 10 强制执行**：Stage 9 完成后，必须自动进入 Stage 10 (去AI味)，无需用户确认。Stage 10 完成后，才询问用户是否需要 Stage 11 (配图)。
+8. **📤 纯净版自动生成**：由 Hook 在 Stage 10/11 结束时自动触发 `scripts/auto_clean_hook.py`。
+9. **🧠 自动复盘**：Stage 12 后自动调用 `edit-diff-learner`，对比初稿与定稿提炼写作经验（初稿即定稿时跳过）。
 
 ---
 
 ## 版本
+- v3.1.0 (2026-03-14): 新增 Stage 13 写作复盘与经验提炼（edit-diff-learner）；Stage 12 纯净版生成改为 Hook 自动触发。
 - v3.0.3 (2026-02-21): 新增 Stage 12 终极收尾动作，确保无论在哪一步结束都会生成适合直接复制的无空行排版版 (clean.txt)。

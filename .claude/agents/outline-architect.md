@@ -23,6 +23,7 @@ model: sonnet
 ```bash
 cat articles/[项目名]/01_theme.md
 cat articles/[项目名]/02_cases.md
+cat articles/[项目名]/00_memory_packet.md  # 读取历史偏好（如不存在则跳过）
 ```
 
 从中提取：
