@@ -267,9 +267,14 @@ N - 否，纯文字即可
 
 ## Stage 12: 📤 终极收尾动作（生成排版纯净版）
 
-**纯净版 `_clean.txt` 现在由 Hook 脚本 (`scripts/auto_clean_hook.py`) 在 Stage 10/11 的 Subagent 结束时自动生成。** 你不再需要亲自执行这一步骤。
+**Claude Code 环境**：纯净版 `_clean.txt`` 通常由 Hook 脚本 (`scripts/auto_clean_hook.py`) 在 Stage 10/11 的 Subagent 结束时自动生成。
 
-如果 Hook 未能触发（例如用户跳过了 Stage 10/11），你仍需手动调用：
+**OpenClaw 环境**：不要依赖 Hook 黑盒，推荐显式执行 Stage 12：
+```bash
+python scripts/openclaw_stage12_runner.py --project [项目名]
+```
+
+如果你已经明确知道定稿文件名，也可以直接调用：
 ```bash
 python scripts/generate_clean.py articles/[项目名]/[定稿文件名].md
 ```
