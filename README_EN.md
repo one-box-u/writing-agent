@@ -1,133 +1,130 @@
 # Writing Agent - OpenClaw Adaptation
 
-> 🚀 An intelligent writing system built on OpenClaw, focused on generating high-quality content with real human texture.
+> An OpenClaw-oriented version of `writing-agent`, synced with upstream `v0.7.0` core capabilities and extended with a runnable OpenClaw execution path.
 
 中文说明：[`README.md`](./README.md) / [`README_ZH.md`](./README_ZH.md)
 
 ---
 
-## 🆕 Update Notes (2026-03-16)
+## What This Is
 
-This branch has been synced with the core capabilities of upstream `writing-agent v0.7.0`, while also being adapted into a runnable OpenClaw-oriented flow.
+This repository is an OpenClaw adaptation of `writing-agent`.
 
-### What was upgraded
+It preserves the core strengths of the upstream project, including:
+- multi-stage writing workflow
+- sub-agent collaboration
+- Humanizer anti-AI-flavor rewriting
+- reader simulation
+- illustration workflow
+- writing memory loop (`00_memory_packet.md` / `99_episode.md`)
 
-- **Synced upstream v0.7.0 core capabilities**
-  - Added `memory-loader`
-  - Added `edit-diff-learner`
-  - Added the `00_memory_packet.md` / `99_episode.md` memory loop
-  - Synced newer versions of `humanizer`, `writing-executor`, `outline-architect`, `title-designer`, and other major agents
-
-- **Added explicit OpenClaw execution path**
-  - Added `scripts/openclaw_stage12_runner.py`
-  - OpenClaw no longer has to depend on Claude Code Hook behavior to generate `_clean.txt`
-  - Stage 12 can now be executed explicitly for better orchestration and debugging
-
-- **Fixed host-environment compatibility issues**
-  - Removed author-machine absolute paths from the web article extraction skill
-  - Replaced multiple `~/.claude/...` examples with project-relative paths
-  - Preserved upstream protocol-layer structure while improving OpenClaw portability
-
-- **Added OpenClaw-specific documentation**
-  - `README_OPENCLAW.md`
-  - `OPENCLAW_EXECUTION_MAP.md`
-  - `OPENCLAW_ADAPTATION_PLAN.md`
+At the same time, it fills in the key missing parts needed for real OpenClaw usage, especially:
+- explicit Stage 12 clean export in OpenClaw
+- clearer OpenClaw-oriented documentation and execution mapping
+- more portable path handling
 
 ---
 
-## 🎯 Current Code Shape
+## Current Feature Shape
 
-### 1. Current agents included
+The current `main` branch includes:
 
-This branch currently contains **16 agent files**:
-
-- `article-illustrator`
-- `concretizer`
-- `edit-diff-learner`
-- `editor-review`
-- `empathy-designer`
-- `humanizer`
-- `memory-loader`
-- `outline-architect`
-- `pre-publish-review`
-- `research-expert`
-- `title-designer`
-- `topic-generator`
-- `topic-research`
-- `toutiao-reader-test`
-- `writing-clarifier`
-- `writing-executor`
-
-### 2. Current skills included
-
-This branch currently contains **3 core skills**:
-
-- `workflow-producer`
-- `style-modeler`
-- `web-article-extractor`
-
-### 3. Current scripts included
-
-- `scripts/auto_clean_hook.py`
-- `scripts/generate_clean.py`
-- `scripts/generate_image.ts`
-- `scripts/openclaw_stage12_runner.py`
+- **16 agents**
+  - including `memory-loader`, `edit-diff-learner`, `humanizer`, `article-illustrator`, etc.
+- **3 core skills**
+  - `workflow-producer`
+  - `style-modeler`
+  - `web-article-extractor`
+- **4 key scripts**
+  - `scripts/auto_clean_hook.py`
+  - `scripts/generate_clean.py`
+  - `scripts/generate_image.ts`
+  - `scripts/openclaw_stage12_runner.py`
+- **memory loop support**
+  - `00_memory_packet.md` generated before writing
+  - `99_episode.md` generated after writing
+- **explicit OpenClaw Stage 12 execution**
+  - `_clean.txt` can be produced without relying on Claude Code Hook behavior
 
 ---
 
-## 🛠️ Writing Modes
+## How to Use It on OpenClaw
 
-The current branch supports three modes:
+### Recommended Mental Model
 
-| Mode | Core Logic | Use Case |
-|:-----|:-----------|:---------|
-| **Lite Mode** | Clarify → Quick writing → Optional review | Short-form writing, essays, existing material |
-| **Pro / Collaborative Mode** | Memory load → Research → Structure → Writing → Review → Reader test → Humanize → Optional illustration → Clean export → Retrospective | Long-form, deep analysis, full workflow |
-| **Ideation Mode** | Topic generation → Topic validation → Enter collaborative mode | No topic yet, needs direction first |
+In OpenClaw, treat this repository as:
+
+1. a writing workflow protocol
+2. a set of stage-oriented agent prompt assets
+3. a file-driven artifact structure
+4. a workflow orchestrated by a main agent, executed stage by stage by sub-agents and scripts
+
+In other words, it is not just “a project that runs inside Claude Code.”
+
+It is:
+
+**a writing system that can be orchestrated in OpenClaw using a main agent, stage agents, and deterministic scripts.**
+
+### Recommended Runtime Pattern
+
+When using this in OpenClaw:
+
+- the main agent should:
+  - receive the writing request
+  - ask the user to choose a mode first
+  - advance the workflow stage by stage
+  - present stage results back to the user
+
+- stage agents should:
+  - read existing files from `articles/[project-name]/`
+  - focus only on the current stage
+  - write the artifact back to disk
+
+- scripts should handle:
+  - clean export
+  - other deterministic post-processing tasks
 
 ---
 
-## 📐 Current Workflow Stages (Code-Aligned)
+## What Needs to Be Configured
 
-The collaborative path in the current `workflow-producer` can be understood as:
+### 1. Runtime Environment
 
-- Stage 0: `memory-loader`
-- Stage 1: `writing-clarifier`
-- Stage 2: `research-expert`
-- Stage 3: `outline-architect`
-- Stage 4: `empathy-designer`
-- Stage 5: `concretizer`
-- Stage 5.5: `title-designer`
-- Stage 6: `writing-executor`
-- Stage 7: `editor-review`
-- Stage 8: `pre-publish-review`
-- Stage 9: `toutiao-reader-test`
-- Stage 10: `humanizer` (mandatory)
-- Stage 11: `article-illustrator` (optional)
-- Stage 12: generate `_clean.txt`
-- Stage 13: `edit-diff-learner`
+You should at least have:
 
-> Note: older docs may still say “12 stages”, but the current code shape already includes the extended Stage 0 and Stage 13 flow.
+- an OpenClaw runtime environment
+- Python 3.10+
+- Node.js (if you want image generation scripts or JS-based tooling)
+
+### 2. Model / Service Capabilities
+
+Depending on what parts of the workflow you want to use, you will typically need:
+
+- **text model capability**
+  - e.g. DeepSeek / MiniMax / Qwen / GLM / Gemini
+- **search capability**
+  - for research and source gathering
+- **image capability** (optional)
+  - if you want to use `article-illustrator`
+- **browser capability** (optional)
+  - if you want to use `web-article-extractor`
+
+### 3. Config Files
+
+This repository includes:
+- `config.json`
+- `config.json.template`
+
+You can start from the template and fill in your own environment-specific values.
+
+> Note: the exact configuration you need depends on which parts of the workflow you plan to use.
+> If you want to start with the text workflow only, prioritize text model access and a working OpenClaw runtime first.
 
 ---
 
-## 🚀 Current Usage (OpenClaw)
+## Most Important Command
 
-### Option 1: Use it as an OpenClaw writing workflow repository
-
-Recommended mental model:
-
-1. **The main agent orchestrates**
-   - receives the user request
-   - asks the user to choose a mode first
-   - advances the workflow stage by stage
-
-2. **Stage agents generate artifacts**
-   - each stage reads existing files from `articles/[project-name]/`
-   - produces the next-stage output
-   - persists results back to disk
-
-3. **Stage 12 runs explicitly in OpenClaw**
+### Stage 12: Explicit clean export
 
 Recommended command:
 
@@ -135,63 +132,42 @@ Recommended command:
 python scripts/openclaw_stage12_runner.py --project [project-name]
 ```
 
-If you already know the final markdown path, you can also run:
+If you already know the final markdown file path, you can also run:
 
 ```bash
 python scripts/generate_clean.py articles/[project-name]/[final-file].md
 ```
 
-### Option 2: Read OpenClaw-specific docs first
-
-For deeper integration or further adaptation, start with:
-
-- `README_OPENCLAW.md`
-- `OPENCLAW_EXECUTION_MAP.md`
-- `OPENCLAW_ADAPTATION_PLAN.md`
+This is the most important explicit execution path for OpenClaw usage right now.
 
 ---
 
-## 📂 Artifact Structure
+## Recommended Reading
 
-The current workflow artifact convention is:
+### Chinese
+- Detailed feature and usage guide: [`README_ZH.md`](./README_ZH.md)
+- OpenClaw guide: [`README_OPENCLAW.md`](./README_OPENCLAW.md)
+- Execution mapping: [`OPENCLAW_EXECUTION_MAP.md`](./OPENCLAW_EXECUTION_MAP.md)
+- Adaptation plan: [`OPENCLAW_ADAPTATION_PLAN.md`](./OPENCLAW_ADAPTATION_PLAN.md)
+- Changelog: [`CHANGELOG.md`](./CHANGELOG.md)
+- Release notes: [`RELEASE_NOTES_ZH.md`](./RELEASE_NOTES_ZH.md)
 
-```text
-articles/
-└── [project-name]/
-    ├── 00_memory_packet.md       # auto-generated writing preference packet
-    ├── 01_theme.md               # theme definition
-    ├── 02_cases.md               # research materials
-    ├── 03_outline.md             # outline
-    ├── 04_empathy_map.md         # empathy map
-    ├── 05_concrete_library.md    # concrete detail library
-    ├── titles.md                 # candidate titles
-    ├── draft_v1.md               # first draft
-    ├── draft_v2.md ...           # later revisions
-    ├── review_*.md               # review artifacts
-    ├── reader_test.md            # reader simulation
-    ├── *_humanized.md / final.md # humanized / final version
-    ├── [name]_clean.txt          # clean export
-    └── 99_episode.md             # retrospective learning artifact
-```
+### English
+- Release notes: [`RELEASE_NOTES_EN.md`](./RELEASE_NOTES_EN.md)
 
 ---
 
-## 🔒 Core Rules
+## Repository Positioning
 
-1. **Mode selection comes first**
-2. **The workflow is file-driven**
-3. **Key nodes require confirmation**
-4. **Stage 10 humanization is mandatory**
-5. **Stage 12 must produce a clean version**
-6. **Stage 13 performs retrospective learning when meaningful diffs exist**
+This version is not a simple copy of Claude Code usage.
+
+It is:
+
+**an OpenClaw-oriented, documented, maintainable version that preserves upstream workflow logic while making it runnable in real OpenClaw usage.**
 
 ---
 
-## 📜 License
+## Credits
 
-MIT License - See [LICENSE](./LICENSE)
-
-## 🙏 Credits
-
-- Upstream project: [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
-- Inspiration: Wikipedia AI Cleanup Project
+- Upstream: [dongbeixiaohuo/writing-agent](https://github.com/dongbeixiaohuo/writing-agent)
+- Fork: [one-box-u/writing-agent](https://github.com/one-box-u/writing-agent)
